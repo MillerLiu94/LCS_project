@@ -2,6 +2,8 @@
 
 「社區小尖兵」是社區服務網站的前端預覽專案，提供社區事件申報流程與 AI 社區服務對話介面，協助居民回報問題並查詢在地資訊。
 
+GitHub repository：[MillerLiu94/LCS_project](https://github.com/MillerLiu94/LCS_project)
+
 ## 功能
 
 - 以手機拍攝或選取照片，建立社區事件申報。
@@ -28,13 +30,13 @@
 ## 本機啟動
 
 ```powershell
-git clone REPOSITORY_URL preview
+git clone https://github.com/MillerLiu94/LCS_project.git preview
 cd preview
 npm ci
 Copy-Item .env.example .env
 ```
 
-請將 `REPOSITORY_URL` 換成遠端倉庫的 clone URL，並保留資料夾名稱 `preview`；目前 Vite 設定會從此資料夾的上一層提供 `/preview/` 網址。
+請保留資料夾名稱 `preview`；目前 Vite 設定會從此資料夾的上一層提供 `/preview/` 網址。
 
 編輯 `.env`，至少設定後端網址：
 
