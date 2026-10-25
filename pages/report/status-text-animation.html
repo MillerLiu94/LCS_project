@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#343b50">
+  <meta name="description" content="社區事件載入動畫。">
+  <title>載入中</title>
+  <link rel="preload" as="image" href="../../assets/images/loading_frame/frame_01.webp">
+  <link rel="preload" as="image" href="../../assets/images/loading_frame/frame_02.webp">
+  <link rel="preload" as="image" href="../../assets/images/loading_frame/frame_03.webp">
+  <link rel="preload" as="image" href="../../assets/images/loading_frame/frame_04.webp">
+  <link rel="preload" as="image" href="../../assets/images/loading_frame/frame_05.webp">
+  <link rel="preload" as="image" href="../../assets/images/loading_frame/frame_06.webp">
+  <link rel="preload" as="image" href="../../assets/images/loading_frame/frame_07.webp">
+  <link rel="preload" as="image" href="../../assets/images/loading_frame/frame_08.webp">
+  <link rel="preload" as="image" href="../../assets/images/loading_frame/frame_09.webp">
+  <link rel="preload" as="image" href="../../assets/images/loading_frame/frame_10.webp">
+  <link rel="preload" as="image" href="../../assets/images/loading_frame/frame_11.webp">
+  <link rel="preload" as="image" href="../../assets/images/loading_frame/frame_12.webp">
+  <link rel="stylesheet" href="../../css/pages/report/status-text-animation.css">
+  <link rel="stylesheet" href="../../css/components/touch-feedback.css">
+</head>
+<body>
+  <main class="loading-screen">
+    <div class="loading-content">
+      <div class="loading-animation" role="img" aria-label="申報辨識動畫預覽"></div>
+      <p class="progress-status" id="progress-status" role="status" aria-live="polite">準備開始處理照片…</p>
+      <progress id="upload-progress" max="100" value="0" hidden aria-label="照片上傳進度"></progress>
+      <div class="continue-links">
+        <button class="continue-link" id="retry-processing" type="button" hidden>重新嘗試</button>
+        <a class="continue-link secondary" href="report.html">返回照片選擇</a>
+      </div>
+    </div>
+  </main>
+  <script src="../../api/runtime-config.js"></script>
+  <script src="../../api/community-api.js"></script>
+  <script src="../../js/report/report-services.js"></script>
+  <script src="../../js/common/interactions.js"></script>
+  <script src="../../js/common/main.js"></script>
+  <script src="../../js/report/report-processing.js"></script>
+</body>
+</html>

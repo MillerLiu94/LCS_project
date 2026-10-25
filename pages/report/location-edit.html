@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#343b50">
+  <meta name="description" content="修改社區小尖兵圖片的地理位置。">
+  <title>修改圖片位置｜社區小尖兵</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/base/reset.css">
+  <link rel="stylesheet" href="../../css/base/typography.css">
+  <link rel="stylesheet" href="../../css/base/theme.css">
+  <link rel="stylesheet" href="../../css/layout/layout.css">
+  <link rel="stylesheet" href="../../css/components/button.css">
+  <link rel="stylesheet" href="../../css/components/card.css">
+  <link rel="stylesheet" href="../../css/components/modal.css">
+  <link rel="stylesheet" href="../../css/pages/report/location-edit.css">
+  <link rel="stylesheet" href="../../css/pages/report/report-interactions.css">
+  <link rel="stylesheet" href="../../css/components/touch-feedback.css">
+</head>
+<body data-location-mode="edit">
+  <div class="page-shell">
+    <main>
+      <section class="intro" aria-labelledby="page-title">
+        <h1 id="page-title"><img class="title-image" src="../../assets/images/location-edit-title.webp" alt="修改圖片的地理位置"></h1>
+        <p class="intro-copy">搜尋地點或使用手機目前位置，更新案件地點。</p>
+      </section>
+
+      <div class="location-search" role="search">
+        <span class="search-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg></span>
+        <label class="sr-only" for="location-query">搜尋地圖位置</label>
+        <input class="location-input" id="location-query" type="search" placeholder="搜尋新地址、地標或社區名稱" autocomplete="street-address">
+        <button class="icon-button" type="button" disabled aria-label="語音輸入已停用" title="語音輸入已停用"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3m-4 0h8"/></svg></button>
+        <button class="search-button" id="search-places" type="button">搜尋</button>
+      </div>
+      <div class="place-results" id="place-results" role="listbox" aria-label="地點搜尋結果"></div>
+      <div class="location-choice-row">
+        <p class="selected-location" id="selected-location" aria-live="polite">正在讀取目前地點…</p>
+        <button class="current-location-button" id="use-current-location" type="button">使用手機目前位置</button>
+      </div>
+
+      <section class="map-card" aria-label="位置地圖">
+        <div class="map-toolbar">
+          <span class="map-title">修改位置</span>
+          <span class="map-hint" id="selection-label">Google 地圖・點選地圖或拖曳圖釘微調</span>
+        </div>
+        <section class="map-panel" aria-label="Google 地圖">
+          <div class="google-map" id="google-map-edit"></div>
+          <p class="map-fallback" id="map-fallback" role="status">正在載入 Google 地圖…</p>
+        </section>
+        <div class="map-nudge" role="group" aria-label="微調圖釘位置">
+          <span class="nudge-label">微調圖釘</span>
+          <button class="nudge-button" type="button" data-nudge="up" disabled aria-label="圖釘向北微調">↑ 上移</button>
+          <button class="nudge-button" type="button" data-nudge="left" disabled aria-label="圖釘向西微調">← 左移</button>
+          <button class="nudge-button" type="button" data-nudge="down" disabled aria-label="圖釘向南微調">↓ 下移</button>
+          <button class="nudge-button" type="button" data-nudge="right" disabled aria-label="圖釘向東微調">右移 →</button>
+        </div>
+      </section>
+
+      <div class="page-actions">
+        <p class="action-hint">確認新地址與座標後返回案件確認頁。</p>
+        <button class="confirm-button" id="confirm-location" type="button" disabled>確認新位置並返回</button>
+      </div>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+    </main>
+  </div>
+  <script src="../../api/runtime-config.js"></script>
+  <script src="../../api/community-api.js"></script>
+  <script src="../../js/report/report-services.js"></script>
+  <script src="../../js/common/interactions.js"></script>
+  <script src="../../js/common/main.js"></script>
+  <script src="../../js/location/google-map-preview.js"></script>
+  <script src="../../js/location/location-picker.js"></script>
+</body>
+</html>

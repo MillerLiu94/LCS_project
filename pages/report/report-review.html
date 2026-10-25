@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#343b50">
+  <meta name="description" content="送出社區事件前，確認事件位置與案件內容。">
+  <title>確認案件資料｜社區小尖兵</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/base/reset.css">
+  <link rel="stylesheet" href="../../css/base/typography.css">
+  <link rel="stylesheet" href="../../css/base/theme.css">
+  <link rel="stylesheet" href="../../css/layout/layout.css">
+  <link rel="stylesheet" href="../../css/components/button.css">
+  <link rel="stylesheet" href="../../css/components/card.css">
+  <link rel="stylesheet" href="../../css/components/modal.css">
+  <link rel="stylesheet" href="../../css/pages/report/report-review.css">
+  <link rel="stylesheet" href="../../css/components/touch-feedback.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="page-header">
+      <img class="completion-art" src="../../assets/images/community-report-review.webp" alt="社區小尖兵核查資料貼圖，圖中文字為確認資料是否正確">
+    </header>
+
+    <main>
+      <div class="review-content">
+        <div class="review-card card-surface">
+          <section class="location-row" aria-labelledby="location-title">
+            <div class="section-copy">
+              <h2 class="section-title" id="location-title">已取得地理位置</h2>
+              <p class="summary-value" id="location-summary">等待位置確認…</p>
+            </div>
+            <a class="secondary-button" id="edit-location" href="location-edit.html">修改地理位置</a>
+          </section>
+
+          <section class="content-section" aria-labelledby="case-title">
+            <div class="section-heading">
+              <div class="section-copy">
+                <h2 class="section-title" id="case-title">案件類別</h2>
+                <p class="summary-value" id="case-category">等待照片辨識…</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="content-section" aria-labelledby="description-title">
+            <div class="section-heading">
+              <div class="section-copy">
+                <h2 class="section-title" id="description-title">案件描述</h2>
+                <p class="summary-value" id="description-summary">辨識完成後會顯示案件描述。</p>
+              </div>
+              <span class="readonly-label">可編輯</span>
+            </div>
+            <div class="editor-panel">
+              <div class="editor-row">
+                <div class="editor-frame">
+                  <label class="sr-only" for="description-input">案件描述</label>
+                  <input class="editor-input" id="description-input" name="case-description" type="text" placeholder="請輸入案件描述" readonly aria-readonly="true" aria-describedby="description-error">
+                  <button class="voice-button" type="button" disabled aria-label="語音輸入未啟用">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3m-4 0h8"/></svg>
+                  </button>
+                  <button class="apply-button" id="apply-description" type="button">修改</button>
+                </div>
+              </div>
+            </div>
+            <p class="field-error" id="description-error" role="alert"></p>
+          </section>
+        </div>
+
+        <div class="submit-area">
+          <button class="submit-button" id="submit-case" type="button">
+            確認並送出
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+          </button>
+          <p class="submit-hint">送出成功後會顯示案件編號與申報資料。</p>
+        </div>
+      </div>
+      <p class="submit-status" id="submit-status" role="alert" aria-live="assertive" hidden></p>
+    </main>
+  </div>
+
+  <script src="../../api/runtime-config.js"></script>
+  <script src="../../api/community-api.js"></script>
+  <script src="../../js/report/report-services.js"></script>
+  <script src="../../js/common/interactions.js"></script>
+  <script src="../../js/common/main.js"></script>
+  <script src="../../js/report/report-review.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,12 @@
+{
+  "name": "community-report-preview",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "predev": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/generate-runtime-config.ps1",
+    "dev": "vite --config vite.config.js"
+  },
+  "devDependencies": {
+    "vite": "^8.3.5"
+  }
+}

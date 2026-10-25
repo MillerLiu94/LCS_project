@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#343b50">
+  <meta name="description" content="選擇或拍攝社區事件照片，開始申報。">
+  <title>開始申報｜社區小尖兵</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/base/reset.css">
+  <link rel="stylesheet" href="../../css/base/typography.css">
+  <link rel="stylesheet" href="../../css/base/theme.css">
+  <link rel="stylesheet" href="../../css/layout/layout.css">
+  <link rel="stylesheet" href="../../css/components/button.css">
+  <link rel="stylesheet" href="../../css/components/card.css">
+  <link rel="stylesheet" href="../../css/components/modal.css">
+  <link rel="stylesheet" href="../../css/pages/report/report.css">
+  <link rel="stylesheet" href="../../css/components/touch-feedback.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到申報內容</a>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="home-link" href="../../index.html" aria-label="回首頁">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1z"/><path d="M9 21v-7h6v7"/></svg>
+        回首頁
+      </a>
+    </header>
+    <main id="main-content">
+      <section class="intro" aria-labelledby="page-title">
+        <h1 id="page-title"><img class="report-intro-art" src="../../assets/images/report-intro-helper.webp" alt="社區事件通報。今天想要申報什麼案件呢？友善小幫手拿著通報清單，並指向施工錐、燈泡與公園插圖。"></h1>
+      </section>
+
+      <section class="intake-panel" aria-label="選擇申報照片">
+        <div class="actions">
+          <input class="file-input" id="camera-input" type="file" accept="image/*" capture="environment">
+          <label class="choice-option" for="camera-input">
+            <img class="choice-art" src="../../assets/images/report-camera-clay-light-blue.webp" alt="" aria-hidden="true">
+            <span class="choice-caption">拍攝現場照片</span>
+          </label>
+          <input class="file-input" id="album-input" type="file" accept="image/*" multiple>
+          <label class="choice-option" for="album-input">
+            <img class="choice-art" src="../../assets/images/report-album-clay-light-blue.webp" alt="" aria-hidden="true">
+            <span class="choice-caption">從相簿選擇照片</span>
+          </label>
+        </div>
+
+        <section class="preview-panel card-surface" aria-labelledby="preview-title">
+          <header class="preview-heading">
+            <h2 class="preview-title" id="preview-title">圖片預覽</h2>
+          </header>
+          <div class="preview-content" id="photo-preview">
+            <div class="empty-state">
+              <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="11" width="48" height="42" rx="8"/><circle cx="23" cy="25" r="4"/><path d="m12 47 14-14 9 9 7-7 10 10"/></svg>
+              <p class="empty-title">圖片預覽</p>
+              <p class="empty-copy">可拍攝或從相簿選擇最多 5 張現場照片。</p>
+            </div>
+          </div>
+        </section>
+
+        <div class="start-action">
+          <button class="start-button" id="start-report" type="button" disabled>
+            開始申報
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+          </button>
+          <p class="preview-mode-note" id="photo-status" role="status" aria-live="polite">請先選擇照片。</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="../../api/runtime-config.js"></script>
+  <script src="../../api/community-api.js"></script>
+  <script src="../../js/report/report-services.js"></script>
+  <script src="../../js/common/interactions.js"></script>
+  <script src="../../js/common/main.js"></script>
+  <script src="../../js/report/report-intake.js"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#343b50">
+  <title>完成申報｜社區小尖兵</title>
+  <link rel="stylesheet" href="../../css/base/reset.css">
+  <link rel="stylesheet" href="../../css/base/typography.css">
+  <link rel="stylesheet" href="../../css/base/theme.css">
+  <link rel="stylesheet" href="../../css/layout/layout.css">
+  <link rel="stylesheet" href="../../css/components/button.css">
+  <link rel="stylesheet" href="../../css/components/card.css">
+  <link rel="stylesheet" href="../../css/components/modal.css">
+  <link rel="stylesheet" href="../../css/pages/report/report-complete.css">
+  <link rel="stylesheet" href="../../css/components/touch-feedback.css">
+</head>
+<body>
+  <main class="page-content">
+    <img class="completion-art" src="../../assets/images/community-report-complete-sticker.webp" alt="完成申報貼圖">
+    <p class="complete-status" id="complete-status" role="alert" aria-live="assertive" hidden></p>
+    <section class="report-card" aria-label="申報資料">
+      <div class="report-field">
+        <span class="field-label">案件編號</span>
+        <p class="field-value event-id" id="event-id">等待後端回傳案件編號…</p>
+      </div>
+      <div class="report-field">
+        <span class="field-label">申報地點</span>
+        <p class="field-value" id="case-location">等待後端回傳申報地點…</p>
+      </div>
+      <div class="report-field">
+        <span class="field-label">案件類別</span>
+        <p class="field-value" id="case-category">載入案件類別…</p>
+      </div>
+      <div class="report-field">
+        <span class="field-label">案件描述</span>
+        <p class="field-value" id="case-description">等待後端回傳案件描述…</p>
+      </div>
+    </section>
+    <a class="home-link" href="../../index.html">回首頁</a>
+  </main>
+  <script src="../../api/runtime-config.js"></script>
+  <script src="../../api/community-api.js"></script>
+  <script src="../../js/report/report-services.js"></script>
+  <script src="../../js/common/interactions.js"></script>
+  <script src="../../js/common/main.js"></script>
+  <script src="../../js/report/report-complete.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+@media (hover: none) and (pointer: coarse) {
+  :is(a[href], button:not(:disabled), [role="button"], summary, .nav-item, .choice-option:not(.is-disabled)) {
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color .14s var(--ease-out, cubic-bezier(.16, 1, .3, 1)), border-color .14s var(--ease-out, cubic-bezier(.16, 1, .3, 1)), box-shadow .14s var(--ease-out, cubic-bezier(.16, 1, .3, 1)),
+      color .14s var(--ease-out, cubic-bezier(.16, 1, .3, 1)), filter .14s var(--ease-out, cubic-bezier(.16, 1, .3, 1)), opacity .14s var(--ease-out, cubic-bezier(.16, 1, .3, 1)), transform .14s var(--ease-out, cubic-bezier(.16, 1, .3, 1));
+  }
+
+  :is(a[href], button:not(:disabled), [role="button"], summary, .nav-item, .choice-option:not(.is-disabled)):active {
+    filter: brightness(.94);
+    transform: scale(.98);
+  }
+
+  .nav-item:active {
+    background-color: var(--soft, var(--brand-soft, rgba(255, 255, 255, .08)));
+    color: var(--primary, var(--brand-primary));
+  }
+
+  .service-card[href]:active .sticker-art {
+    transform: scale(.96);
+  }
+
+  .service-card[href]:active .sticker-default {
+    opacity: 0;
+    transform: scale(.94);
+  }
+
+  .service-card[href]:active .sticker-hover {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :is(a[href], button, [role="button"], summary, .nav-item, .choice-option, .sticker-art, .sticker-image) {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

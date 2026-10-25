@@ -1,0 +1,50 @@
+html {
+  scroll-behavior: smooth;
+}
+
+main {
+  min-width: 0;
+}
+
+.report-device-gate {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 24px;
+  background: var(--brand-page);
+  color: var(--brand-page-ink);
+  font: 20px/1.6 "Atkinson Hyperlegible", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  text-align: center;
+}
+
+.report-device-gate__card {
+  width: min(100%, 560px);
+  padding: clamp(28px, 6vw, 52px);
+  border: 1px solid var(--brand-line);
+  border-radius: 28px;
+  background: var(--brand-surface);
+}
+
+.report-device-gate__icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 18px;
+  color: var(--brand-primary);
+}
+
+.report-device-gate h1 {
+  margin: 0 0 12px;
+  font-size: clamp(1.45rem, 5vw, 1.8rem);
+  line-height: 1.35;
+}
+
+.report-device-gate p {
+  margin: 0 0 12px;
+  color: var(--brand-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,19 @@
+:root {
+  color-scheme: light;
+  --brand-page: #343b50;
+  --brand-page-ink: #f3f5fa;
+  --brand-surface: #252d3e;
+  --brand-muted: #c4cad7;
+  --brand-primary: #b7ceff;
+  --brand-on-primary: #202c44;
+  --brand-soft: #3f485e;
+  --brand-line: #505d76;
+  --brand-focus: #ffe08b;
+  --brand-input-surface: #fff;
+  --brand-input-ink: #22252c;
+  --brand-input-muted: #858a95;
+  --brand-input-line: #d6dae2;
+  --brand-control-ink: #242832;
+  --brand-send-surface: #f0f1f4;
+  --brand-send-ink: #252a34;
+}

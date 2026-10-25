@@ -1,0 +1,69 @@
+* { box-sizing: border-box; }
+    html { min-width: 320px; min-height: 100%; background: var(--brand-page); }
+    body {
+      display: grid;
+      min-height: 100vh;
+      min-height: 100svh;
+      place-items: center;
+      margin: 0;
+      padding: 20px;
+      background: var(--brand-page);
+      color: var(--brand-page-ink);
+      font-family: "Atkinson Hyperlegible", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      line-height: 1.55;
+    }
+    .page-content { display: flex; width: min(100%, 620px); flex-direction: column; align-items: center; gap: 24px; }
+    .completion-art {
+      display: block;
+      flex: 0 0 auto;
+      width: min(100%, 460px);
+      height: auto;
+      max-height: none;
+      margin: 0 auto;
+      object-fit: contain;
+    }
+    .report-card {
+      width: min(100%, 540px);
+      padding: clamp(18px, 4vw, 28px);
+      border: 1px solid var(--brand-line);
+      border-radius: 22px;
+      background: var(--brand-surface);
+      box-shadow: 0 14px 38px rgba(13, 18, 29, .2);
+    }
+    .report-field + .report-field { margin-top: 18px; padding-top: 17px; border-top: 1px solid var(--brand-line); }
+    .field-label { display: block; margin: 0 0 5px; color: var(--brand-muted); font-size: .88rem; }
+    .field-value { margin: 0; overflow-wrap: anywhere; }
+    .event-id { color: #d7e4ff; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-weight: 700; letter-spacing: .025em; }
+    .home-link {
+      display: inline-flex;
+      min-width: 148px;
+      min-height: 50px;
+      align-items: center;
+      justify-content: center;
+      margin-top: 20px;
+      padding: 10px 22px;
+      border: 1px solid var(--brand-primary);
+      border-radius: 14px;
+      background: var(--brand-primary);
+      color: var(--brand-on-primary);
+      font-weight: 700;
+      text-decoration: none;
+      transition: filter .16s ease, transform .16s ease;
+    }
+    .home-link:focus-visible { outline: 4px solid var(--brand-focus); outline-offset: 4px; }
+    @media (max-width: 520px) {
+      body { padding: 14px; }
+      .page-content { gap: 20px; }
+      .completion-art { width: min(100%, 390px); }
+      .report-card { border-radius: 18px; }
+      .home-link { width: min(100%, 280px); }
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .home-link:hover { filter: brightness(1.07); transform: translateY(-1px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: .01ms !important; }
+    }
+
+.complete-status { margin: 0; color: #ffd2c7; text-align: center; }
+.complete-status[hidden] { display: none; }

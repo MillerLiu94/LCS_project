@@ -1,0 +1,84 @@
+:root {
+      color-scheme: light;
+      background: #343b50;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    * { box-sizing: border-box; }
+
+    html,
+    body {
+      width: 100%;
+      min-width: 320px;
+      min-height: 100%;
+      margin: 0;
+      background: #343b50;
+    }
+
+    .loading-screen {
+      display: grid;
+      width: 100%;
+      min-height: 100vh;
+      min-height: 100svh;
+      place-items: center;
+      overflow: hidden;
+      background: #343b50;
+    }
+
+    .loading-content { display: grid; justify-items: center; gap: 12px; width: min(560px, 90vw); padding: 20px; text-align: center; }
+
+    .loading-animation {
+      width: min(500px, 90vw, 50svh);
+      aspect-ratio: 9 / 10;
+      background: url("../../../assets/images/loading_frame/frame_01.webp") center / 100% 100% no-repeat;
+      animation: show-loading-frames 1s steps(1, end) infinite;
+    }
+
+    .preview-note { margin: 0; color: #e7ebf5; font: 16px/1.5 "Atkinson Hyperlegible", "Noto Sans TC", "Microsoft JhengHei", sans-serif; }
+    .continue-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+    .continue-link { display: inline-flex; min-height: 50px; align-items: center; justify-content: center; padding: 10px 20px; border-radius: 14px; background: #b7ceff; color: #17233a; font: 700 17px/1.3 "Atkinson Hyperlegible", "Noto Sans TC", "Microsoft JhengHei", sans-serif; text-decoration: none; }
+    .continue-link.secondary { background: #fff; color: #28334a; }
+    .continue-link:focus-visible { outline: 4px solid #fff; outline-offset: 3px; }
+
+    @media (max-width: 600px) {
+      .loading-screen {
+        min-height: 100vh;
+        min-height: 100dvh;
+        padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+
+      .loading-content { width: min(560px, 100%); padding: 12px 0; }
+      .loading-animation { width: min(500px, 100%, 50svh); width: min(500px, 100%, 50dvh); }
+    }
+
+    @keyframes show-loading-frames {
+      0% { background-image: url("../../../assets/images/loading_frame/frame_01.webp"); }
+      8.333% { background-image: url("../../../assets/images/loading_frame/frame_02.webp"); }
+      16.667% { background-image: url("../../../assets/images/loading_frame/frame_03.webp"); }
+      25% { background-image: url("../../../assets/images/loading_frame/frame_04.webp"); }
+      33.333% { background-image: url("../../../assets/images/loading_frame/frame_05.webp"); }
+      41.667% { background-image: url("../../../assets/images/loading_frame/frame_06.webp"); }
+      50% { background-image: url("../../../assets/images/loading_frame/frame_07.webp"); }
+      58.333% { background-image: url("../../../assets/images/loading_frame/frame_08.webp"); }
+      66.667% { background-image: url("../../../assets/images/loading_frame/frame_09.webp"); }
+      75% { background-image: url("../../../assets/images/loading_frame/frame_10.webp"); }
+      83.333% { background-image: url("../../../assets/images/loading_frame/frame_11.webp"); }
+      91.667% { background-image: url("../../../assets/images/loading_frame/frame_12.webp"); }
+      100% { background-image: url("../../../assets/images/loading_frame/frame_01.webp"); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .loading-animation { animation: none; }
+    }
+
+.progress-status { max-width: 48ch; margin: 0; color: #e7ebf5; font: 16px/1.5 "Atkinson Hyperlegible", "Noto Sans TC", "Microsoft JhengHei", sans-serif; }
+.progress-status[role="alert"] { color: #ffd2c7; }
+#upload-progress { width: min(100%, 440px); height: 16px; accent-color: #b7ceff; }
+.continue-link { border: 0; font: inherit; cursor: pointer; }
+.continue-link:disabled { cursor: wait; opacity: .65; }
+.continue-link[hidden], #upload-progress[hidden] { display: none; }

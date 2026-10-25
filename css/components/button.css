@@ -1,0 +1,22 @@
+:where(button, a, input, textarea, select, summary, [tabindex]):focus-visible {
+  outline: 4px solid var(--brand-focus, #ffe08b);
+  outline-offset: 3px;
+}
+
+.report-device-gate__action {
+  display: inline-flex;
+  min-height: 54px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 14px;
+  padding: 10px 22px;
+  border-radius: 16px;
+  background: var(--brand-primary);
+  color: var(--brand-on-primary);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.report-device-gate__action:focus-visible {
+  outline-offset: 4px;
+}

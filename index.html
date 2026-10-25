@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#343b50">
+  <meta name="description" content="社區小尖兵社區服務首頁，陪您處理社區大小事。">
+  <title>社區小尖兵｜首頁</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base/reset.css">
+  <link rel="stylesheet" href="css/base/typography.css">
+  <link rel="stylesheet" href="css/base/theme.css">
+  <link rel="stylesheet" href="css/layout/layout.css">
+  <link rel="stylesheet" href="css/components/button.css">
+  <link rel="stylesheet" href="css/components/card.css">
+  <link rel="stylesheet" href="css/components/modal.css">
+  <link rel="stylesheet" href="css/pages/home.css">
+  <link rel="stylesheet" href="css/components/touch-feedback.css">
+</head>
+<body>
+  <a class="skip-link" href="#preview">跳到首頁內容</a>
+  <main class="page-shell">
+    <div class="showcase">
+      <div class="preview-wrap">
+        <section id="preview" class="app-frame" aria-label="社區小尖兵首頁" tabindex="0">
+          <header class="app-topbar">
+            <nav class="main-nav" aria-label="首頁功能">
+              <span class="nav-item" aria-current="page">申報事件總覽</span>
+              <span class="nav-item">我的申報事件</span>
+            </nav>
+            <div class="place-chip" role="group" aria-label="位置與天氣資訊" data-location-container aria-busy="true">
+              <button class="location-refresh" type="button" data-location-refresh aria-label="更新目前位置" title="更新目前位置"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></button>
+              <span><span class="place-name" data-location-name role="status" aria-atomic="true">正在取得目前位置…</span><span class="place-weather"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l-1.42-1.42m11.3-11.3 1.42-1.42"/></svg><span data-weather-status role="status" aria-atomic="true">等待位置</span></span></span>
+            </div>
+          </header>
+          <div class="screen-content">
+            <section class="welcome" aria-labelledby="slogan">
+              <div class="brand-plate"><img class="brand-logo" src="assets/images/community-pioneer-badge.webp" alt="社區小尖兵"></div>
+              <div class="welcome-copy">
+                <h2 class="slogan" id="slogan">和鄰里一起，把生活照顧好</h2>
+                <p class="welcome-description">社區大小事，有人陪您一起處理。</p>
+              </div>
+            </section>
+
+            <form class="prompt-card" id="home-chat-form" aria-label="開始 AI 對話">
+              <label class="sr-only" for="prompt">輸入您要申報或查詢的內容</label>
+              <textarea class="prompt-placeholder" id="prompt" name="prompt" rows="1" placeholder="想聊聊生活大小事，或找找需要的服務？" aria-label="輸入訊息"></textarea>
+              <div class="composer-actions" role="group" aria-label="送出控制">
+              <button class="send-control" id="chat-send" type="submit" aria-label="開始對話"><span>開始對話</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
+              </div>
+              <p class="prompt-status" id="home-chat-status" role="status" aria-live="polite"></p>
+            </form>
+
+            <section class="services-section" aria-label="社區服務">
+              <div class="services-grid">
+                <div class="service-card" id="desktop-report-notice" role="group" aria-label="申報社區事件僅限手機使用">
+                  <span class="sticker-art" aria-hidden="true">
+                    <img class="sticker-image sticker-default" src="assets/images/stickers/report.webp" width="76" height="76" alt="">
+                    <img class="sticker-image sticker-hover" src="assets/images/stickers/report-hover.webp" width="76" height="76" alt="">
+                  </span>
+                  <span>
+                    <span class="service-description">申報社區事件</span>
+                    <span class="report-device-note">為了確認事件位置，請使用手機進行申報。</span>
+                  </span>
+                </div>
+                <a class="service-card" id="mobile-report-link" href="./pages/report/report.html" hidden>
+                  <span class="sticker-art" aria-hidden="true">
+                    <img class="sticker-image sticker-default" src="assets/images/stickers/report.webp" width="76" height="76" alt="">
+                    <img class="sticker-image sticker-hover" src="assets/images/stickers/report-hover.webp" width="76" height="76" alt="">
+                  </span>
+                  <span class="service-description">申報社區事件</span>
+                </a>
+                <div class="service-card">
+                  <span class="sticker-art" aria-hidden="true">
+                    <img class="sticker-image sticker-default" src="assets/images/stickers/local-life.webp" width="76" height="76" alt="">
+                    <img class="sticker-image sticker-hover" src="assets/images/stickers/local-life-hover.webp" width="76" height="76" alt="">
+                  </span>
+                  <span class="service-description">查詢福利與在地資訊</span>
+                </div>
+                <div class="service-card">
+                  <span class="sticker-art" aria-hidden="true">
+                    <img class="sticker-image sticker-default" src="assets/images/stickers/nearby-events.webp" width="76" height="76" alt="">
+                    <img class="sticker-image sticker-hover" src="assets/images/stickers/nearby-events-hover.webp" width="76" height="76" alt="">
+                  </span>
+                  <span class="service-description">查看附近社區事件</span>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+  <script src="api/runtime-config.js"></script>
+  <script src="api/community-api.js"></script>
+  <script src="js/mock-data.js"></script>
+  <script src="js/common/interactions.js"></script>
+  <script src="js/common/main.js"></script>
+  <script src="js/chat/home-chat.js"></script>
+  <script src="js/weather/weather.js"></script>
+</body>
+</html>

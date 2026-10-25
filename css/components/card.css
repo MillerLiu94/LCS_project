@@ -1,0 +1,5 @@
+.card-surface {
+  border: var(--surface-card-border-width, 1px) var(--surface-card-border-style, solid) var(--surface-card-border-color, var(--brand-line));
+  border-radius: var(--surface-card-radius, 18px);
+  background: var(--surface-card-background, var(--brand-surface));
+}

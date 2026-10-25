@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#343b50">
+  <meta name="description" content="與社區小尖兵 AI 生活助理即時對話。">
+  <title>AI 生活助理｜社區小尖兵</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/base/reset.css">
+  <link rel="stylesheet" href="../../css/base/typography.css">
+  <link rel="stylesheet" href="../../css/base/theme.css">
+  <link rel="stylesheet" href="../../css/pages/home.css">
+  <link rel="stylesheet" href="../../css/pages/chat/stream-chat.css">
+  <link rel="stylesheet" href="../../css/pages/chat/chat-page.css">
+  <link rel="stylesheet" href="../../css/components/touch-feedback.css">
+</head>
+<body>
+  <a class="skip-link" href="#chat-scroll">跳到對話內容</a>
+  <main class="chat-page-frame">
+    <div class="chat-app">
+      <div class="chat-main">
+        <header class="chat-header">
+          <div class="chat-header-inner">
+            <a class="chat-back" href="../../index.html" aria-label="返回首頁"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6M9 12h12"/></svg></a>
+            <div class="assistant-heading"><h1>AI 生活助理</h1><p><span class="online-dot" aria-hidden="true"></span><span id="connection-status">準備為您服務</span></p></div>
+            <button class="clear-button" id="clear-chat" type="button">新對話</button>
+          </div>
+        </header>
+        <div class="chat-scroll" id="chat-scroll">
+          <div class="chat-thread">
+            <section class="welcome-card" id="welcome-card" aria-labelledby="chat-welcome-title">
+              <p class="welcome-kicker"><span class="kicker-line" aria-hidden="true"></span>AI 社區助理</p>
+              <h2 id="chat-welcome-title">今天有什麼事，<span>想一起處理？</span></h2>
+              <p>從社區服務、福利資訊到生活大小事，告訴我你遇到的情況，我會陪你一步一步找答案。</p>
+              <div class="suggestion-list" aria-label="你可以這樣問">
+                <button class="suggestion" type="button" data-prompt="附近有哪些社區活動？">附近有哪些社區活動？<span aria-hidden="true">→</span></button>
+                <button class="suggestion" type="button" data-prompt="我想了解可以申請的福利。">我想了解可以申請的福利。<span aria-hidden="true">→</span></button>
+                <button class="suggestion" type="button" data-prompt="社區事件要怎麼通報？">社區事件要怎麼通報？<span aria-hidden="true">→</span></button>
+                <button class="suggestion" type="button" data-prompt="請幫我整理附近可使用的公共服務。">附近有哪些公共服務？<span aria-hidden="true">→</span></button>
+              </div>
+            </section>
+            <div class="message-list" id="message-list" role="log" aria-label="對話訊息" aria-live="off"></div>
+          </div>
+        </div>
+        <footer class="chat-composer-wrap">
+          <div class="composer-meta"><span id="chat-status" role="status" aria-live="polite">AI 生成的內容可能有誤，請自行確認重要資訊。</span><span>Enter 送出 · Shift + Enter 換行</span></div>
+          <div class="chat-composer-holder">
+            <form class="prompt-card" id="home-chat-form" aria-label="AI 對話輸入">
+              <label class="sr-only" for="prompt">輸入訊息</label>
+              <textarea class="prompt-placeholder" id="prompt" name="prompt" rows="1" placeholder="想聊聊生活大小事，或找找需要的服務？" aria-label="輸入訊息"></textarea>
+              <div class="composer-actions" role="group" aria-label="送出控制">
+                <button class="send-control" id="chat-send" type="submit" aria-label="送出訊息"><span>送出訊息</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
+              </div>
+              <p class="prompt-status" id="home-chat-status" role="status" aria-live="polite"></p>
+            </form>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </main>
+  <script src="../../api/runtime-config.js"></script>
+  <script src="../../api/community-api.js"></script>
+  <script src="../../js/chat/chat-stream.js"></script>
+  <script src="../../js/chat/chat-messages.js"></script>
+  <script src="../../js/chat/chat-page.js"></script>
+</body>
+</html>
