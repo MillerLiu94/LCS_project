@@ -64,6 +64,7 @@
     global.navigator.geolocation.getCurrentPosition(function (position) {
       var lat = position.coords.latitude;
       var lng = position.coords.longitude;
+      try { global.sessionStorage.setItem("communityCurrentLocation", JSON.stringify({ lat: lat, lng: lng })); } catch (_) {}
       Promise.all([updateRegion(lat, lng), updateWeather(lat, lng)]).then(function () {
         setBusy(false);
       });

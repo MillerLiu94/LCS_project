@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#343b50">
+  <meta name="description" content="正在分析附近的生活動態。">
+  <title>正在整理活動資訊｜社區小尖兵</title>
+  <link rel="preload" as="image" href="../../assets/images/loading-analysis-sprite.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/pages/report/status-text-animation.css">
+</head>
+<body>
+  <main class="loading-screen">
+    <section class="loading-content" aria-labelledby="loading-title">
+      <div class="loading-animation" role="img" aria-label="正在整理附近活動資訊的動畫"></div>
+      <h1 class="progress-status" id="loading-title" role="status" aria-live="polite">AI 正在分析附近的生活動態…</h1>
+      <p class="preview-note" id="query-context"></p>
+    </section>
+  </main>
+  <script src="../../js/local-info/activities-loading.js"></script>
+</body>
+</html>

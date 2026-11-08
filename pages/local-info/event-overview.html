@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#343b50">
+  <meta name="description" content="瀏覽社區近期活動與活動詳情。">
+  <title>社區事件總覽｜社區小尖兵</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/base/reset.css">
+  <link rel="stylesheet" href="../../css/base/typography.css">
+  <link rel="stylesheet" href="../../css/base/theme.css">
+  <link rel="stylesheet" href="../../css/pages/local-info/event-overview.css">
+  <link rel="stylesheet" href="../../css/components/case-card.css">
+  <link rel="stylesheet" href="../../css/components/touch-feedback.css">
+</head>
+<body>
+  <div class="event-frame">
+    <header class="event-header">
+      <a class="brand-link" href="../../index.html"><img src="../../assets/images/community-pioneer-badge.webp" alt="社區小尖兵"></a>
+      <a class="home-link" href="../../index.html" aria-label="回首頁">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1z"/></svg>
+        回首頁
+      </a>
+    </header>
+    <main class="event-main">
+      <h1>社區事件總覽</h1>
+      <p class="event-count sr-only" id="event-count" role="status" aria-live="polite">目前顯示 10 筆活動</p>
+      <section class="event-grid" id="events-list" aria-label="社區活動列表"></section>
+      <p class="event-status" id="event-status" role="status" aria-live="polite"></p>
+      <button class="retry-button" id="retry-events" type="button" hidden>載入更多活動</button>
+    </main>
+  </div>
+  <script src="../../api/runtime-config.js"></script>
+  <script src="../../api/community-api.js"></script>
+  <script src="../../js/local-info/event-overview.js"></script>
+</body>
+</html>

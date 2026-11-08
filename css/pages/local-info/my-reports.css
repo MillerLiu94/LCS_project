@@ -1,0 +1,10 @@
+.my-reports-main { padding-top: 25px; }
+.page-description { margin: -7px 0 19px; color: var(--brand-muted); font-size: .88rem; }
+.empty-state { width: min(100%, 560px); margin: 0 auto; padding: 30px 20px; border: 1px solid var(--brand-line); border-radius: 18px; background: var(--brand-surface); color: var(--brand-muted); text-align: center; }
+.empty-state[hidden] { display: none; }
+.empty-state a { display: block; width: fit-content; margin: 12px auto 0; color: var(--brand-primary); font-weight: 700; }
+.event-status[data-error="true"] { color: #ffd2c7; }
+@media (max-width: 640px) {
+  .my-reports-main { padding-top: 24px; }
+  .page-description { margin-bottom: 19px; }
+}

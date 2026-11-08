@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#343b50">
+  <meta name="description" content="用一句話查詢附近福利、社區服務和生活資訊。">
+  <title>查詢福利與在地資訊｜社區小尖兵</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/base/reset.css">
+  <link rel="stylesheet" href="../../css/base/typography.css">
+  <link rel="stylesheet" href="../../css/base/theme.css">
+  <link rel="stylesheet" href="../../css/components/button.css">
+  <link rel="stylesheet" href="../../css/pages/local-info/location.css">
+  <link rel="stylesheet" href="../../css/components/touch-feedback.css">
+</head>
+<body>
+  <div class="flow-shell">
+    <header class="flow-header">
+      <a class="brand-link" href="../../index.html"><img src="../../assets/images/community-pioneer-badge.webp" alt="社區小尖兵"></a>
+      <a class="home-link" href="../../index.html">回首頁</a>
+    </header>
+    <main class="flow-main">
+      <section class="hero" aria-labelledby="page-title">
+        <p class="eyebrow">福利・在地生活</p>
+        <h1 id="page-title">今天想了解什麼？</h1>
+        <p class="hero-copy">用一句話說出你的需要，附近服務、福利補助和生活資訊都可以問。</p>
+      </section>
+
+      <form class="query-card" id="local-info-form" aria-label="查詢福利與在地資訊">
+        <label class="sr-only" for="local-info-question">你的問題</label>
+        <textarea class="query-input" id="local-info-question" rows="3" placeholder="例如：我想了解附近的長照服務" aria-describedby="query-examples"></textarea>
+        <p class="query-examples" id="query-examples">也可以詢問育兒補助、租屋支持、社區活動⋯⋯</p>
+        <div class="query-actions">
+          <div class="current-place" aria-live="polite">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+            <span class="place-copy"><small>查詢地區</small><strong id="location-label">正在取得目前位置…</strong></span>
+            <button class="change-location" id="toggle-location-editor" type="button" aria-expanded="false" aria-controls="location-editor">更改地點</button>
+          </div>
+          <button class="confirm-button" id="confirm-location" type="submit" aria-label="開始查詢" title="開始查詢"><span class="sr-only">開始查詢</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
+        </div>
+      </form>
+
+      <section class="location-editor" id="location-editor" hidden aria-labelledby="map-heading">
+        <div class="editor-heading">
+          <div><h2 id="map-heading">搜尋或調整查詢地點</h2><p>搜尋地標，或在地圖上拖曳圖釘微調。</p></div>
+          <button class="current-location-button" id="use-current-location" type="button">使用目前位置</button>
+        </div>
+        <div class="location-search" role="search" aria-label="搜尋查詢地點">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg>
+          <label class="sr-only" for="location-query">搜尋地圖位置</label>
+          <input class="location-input" id="location-query" type="search" placeholder="搜尋地址、地標或社區名稱" autocomplete="street-address">
+          <button class="icon-button" id="voice-search" type="button" aria-label="語音輸入搜尋地點" title="語音輸入搜尋地點"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3m-4 0h8"/></svg></button>
+          <button class="search-button" id="search-places" type="button">搜尋</button>
+        </div>
+        <div class="place-results" id="place-results" role="region" aria-label="地點搜尋結果" aria-live="polite"></div>
+        <section class="map-card" aria-label="可調整位置的 Google 地圖">
+          <div class="map-toolbar"><h3>地圖預覽</h3><p>拖曳圖釘，或用方向按鈕微調</p></div>
+          <div class="map-panel">
+            <div class="google-map" id="google-map"></div>
+            <p class="map-fallback" id="map-fallback" role="status">展開地點設定後載入 Google 地圖…</p>
+          </div>
+          <div class="map-nudge" role="group" aria-label="用按鈕微調地圖圖釘位置">
+            <span>微調圖釘</span>
+            <button class="nudge-button" type="button" data-nudge="up" disabled aria-label="圖釘向北移動">↑</button>
+            <button class="nudge-button" type="button" data-nudge="left" disabled aria-label="圖釘向西移動">←</button>
+            <button class="nudge-button" type="button" data-nudge="down" disabled aria-label="圖釘向南移動">↓</button>
+            <button class="nudge-button" type="button" data-nudge="right" disabled aria-label="圖釘向東移動">→</button>
+          </div>
+        </section>
+      </section>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+    </main>
+  </div>
+  <script src="../../api/runtime-config.js"></script>
+  <script src="../../api/community-api.js"></script>
+  <script src="../../js/location/google-map-preview.js"></script>
+  <script src="../../js/location/local-info-picker.js"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#343b50">
+  <meta name="description" content="查看目前帳號申報的社區事件與處理進度。">
+  <title>我的申報事件｜社區小尖兵</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/base/reset.css">
+  <link rel="stylesheet" href="../../css/base/typography.css">
+  <link rel="stylesheet" href="../../css/base/theme.css">
+  <link rel="stylesheet" href="../../css/pages/local-info/event-overview.css">
+  <link rel="stylesheet" href="../../css/pages/local-info/my-reports.css">
+  <link rel="stylesheet" href="../../css/components/case-card.css">
+  <link rel="stylesheet" href="../../css/components/touch-feedback.css">
+</head>
+<body>
+  <div class="event-frame">
+    <header class="event-header">
+      <a class="brand-link" href="../../index.html"><img src="../../assets/images/community-pioneer-badge.webp" alt="社區小尖兵"></a>
+      <a class="home-link" href="../../index.html" aria-label="回首頁">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1z"/></svg>
+        回首頁
+      </a>
+    </header>
+    <main class="event-main my-reports-main">
+      <h1>我的申報事件</h1>
+      <p class="page-description">查看由目前帳號送出的事件與處理進度。</p>
+      <p class="event-count sr-only" id="report-count" role="status" aria-live="polite">正在載入申報紀錄…</p>
+      <section class="event-grid" id="reports-list" aria-label="我的申報事件列表"></section>
+      <p class="empty-state" id="empty-state" hidden>目前還沒有申報紀錄。<a href="../report/report.html">前往申報事件</a></p>
+      <p class="event-status" id="report-status" role="status" aria-live="polite"></p>
+      <button class="retry-button" id="retry-reports" type="button" hidden>重新載入</button>
+    </main>
+  </div>
+  <script src="../../api/runtime-config.js"></script>
+  <script src="../../api/community-api.js"></script>
+  <script src="../../js/local-info/my-reports.js"></script>
+</body>
+</html>

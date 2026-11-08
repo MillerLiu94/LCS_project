@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#343b50">
+  <meta name="description" content="查看附近居民申報的社區事件案件。">
+  <title>附近事件案件｜社區小尖兵</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/base/reset.css">
+  <link rel="stylesheet" href="../../css/base/typography.css">
+  <link rel="stylesheet" href="../../css/base/theme.css">
+  <link rel="stylesheet" href="../../css/pages/local-info/cases.css">
+  <link rel="stylesheet" href="../../css/components/case-card.css">
+  <link rel="stylesheet" href="../../css/components/touch-feedback.css">
+</head>
+<body>
+  <div class="flow-shell">
+    <header class="flow-header">
+      <a class="brand-link" href="../../index.html"><img src="../../assets/images/community-pioneer-badge.webp" alt="社區小尖兵"></a>
+      <a class="home-link" href="../../index.html">回首頁</a>
+    </header>
+    <main class="cases-main">
+      <section class="cases-hero" aria-labelledby="page-title">
+        <p class="eyebrow">鄰里・事件回報</p>
+        <h1 id="page-title">以下是 XX 里發生的案件</h1>
+        <p class="hero-copy">查看附近居民申報的社區事件與處理進度。</p>
+      </section>
+      <section class="cases-summary" aria-label="案件地區與數量">
+        <div><span class="summary-label">目前瀏覽里別</span><strong>XX 里</strong></div>
+        <span class="case-count" id="case-count" aria-live="polite">顯示 4 件案件</span>
+      </section>
+      <section class="cases-grid" id="cases-list" aria-label="附近居民申報案件" aria-live="polite"></section>
+      <div class="cases-actions">
+        <button class="more-button" id="show-more" type="button" aria-controls="cases-list">查看更多案件 <span aria-hidden="true">→</span></button>
+      </div>
+      <p class="page-note">案件內容為介面示意，實際案件資訊以系統資料為準。</p>
+    </main>
+  </div>
+  <script src="../../js/local-info/cases.js"></script>
+</body>
+</html>

@@ -46,11 +46,13 @@
     return apiUrl(path) + "?role=" + encodeURIComponent(role);
   }
 
-  function streamChat(message, messages, signal) {
+  function streamChat(message, messages, signal, images) {
+    var body = { message: message, messages: messages };
+    if (Array.isArray(images) && images.length) body.images = images;
     return fetch(apiUrl("/chat/stream"), {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "text/event-stream" },
-      body: JSON.stringify({ message: message, messages: messages }),
+      body: JSON.stringify(body),
       signal: signal,
       cache: "no-store",
     });
@@ -91,6 +93,13 @@
       return getJson("/places/reverse?lat=" + encodeURIComponent(lat) + "&lng=" + encodeURIComponent(lng));
     },
     createCase: function (payload) { return postJson("/cases", payload); },
+    getEvents: function (offset, limit) {
+      return getJson("/events?offset=" + encodeURIComponent(offset) + "&limit=" + encodeURIComponent(limit));
+    },
+    getMyCases: function (account, offset, limit) {
+      return getJson("/cases?author_account=" + encodeURIComponent(account) +
+        "&offset=" + encodeURIComponent(offset) + "&limit=" + encodeURIComponent(limit));
+    },
     streamChat: streamChat,
     getLineLoginUrl: getLineLoginUrl,
     authorAccount: String(config.mockAuthorAccount || "test1"),

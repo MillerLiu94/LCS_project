@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#343b50">
+  <meta name="description" content="查看附近的社區生活活動。">
+  <title>附近生活動態｜社區小尖兵</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/base/reset.css">
+  <link rel="stylesheet" href="../../css/base/typography.css">
+  <link rel="stylesheet" href="../../css/base/theme.css">
+  <link rel="stylesheet" href="../../css/pages/local-info/activities.css">
+  <link rel="stylesheet" href="../../css/components/case-card.css">
+</head>
+<body>
+  <div class="flow-shell">
+    <header class="flow-header">
+      <a class="brand-link" href="../../index.html"><img src="../../assets/images/community-pioneer-badge.webp" alt="社區小尖兵"></a>
+      <a class="home-link" href="../../index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1z"/></svg>回首頁</a>
+    </header>
+    <main class="activities-main">
+      <section class="activities-hero" aria-labelledby="page-title">
+        <p class="eyebrow">福利・在地生活</p>
+        <h1 id="page-title">附近的生活動態</h1>
+        <p class="hero-copy">以下是符合您查詢內容的活動資訊。</p>
+      </section>
+      <section class="activities-summary" aria-label="查詢條件與結果數量">
+        <div class="summary-place"><span class="summary-label">查詢地區</span><strong id="activity-location">目前所在位置</strong></div>
+        <p class="summary-query" id="activity-query" hidden></p>
+        <span class="activity-count" id="activity-count" aria-live="polite"></span>
+      </section>
+      <section class="activities-grid" id="activities-list" aria-label="附近社區活動" aria-live="polite"></section>
+      <div class="activities-actions">
+        <button class="more-button" id="show-more" type="button" aria-controls="activities-list">
+          <span>查看更多動態（還剩 <span id="remaining-count">0</span> 筆資料）</span><span aria-hidden="true">→</span>
+        </button>
+      </div>
+      <p class="page-note">目前顯示介面示意活動，實際活動資訊以系統資料為準。</p>
+    </main>
+  </div>
+  <script src="../../js/local-info/activities.js"></script>
+</body>
+</html>
