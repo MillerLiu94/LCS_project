@@ -38,6 +38,14 @@
     });
   }
 
+  function getLineLoginUrl(role) {
+    var path = String(config.lineLoginPath || "").trim();
+    if (!path) throw new Error("LINE_LOGIN_PATH 尚未設定。");
+    if (role !== "resident" && role !== "staff") throw new Error("請選擇有效的登入身分。");
+    // The backend entry endpoint should start OAuth and redirect the browser to LINE.
+    return apiUrl(path) + "?role=" + encodeURIComponent(role);
+  }
+
   function streamChat(message, messages, signal) {
     return fetch(apiUrl("/chat/stream"), {
       method: "POST",
@@ -84,6 +92,7 @@
     },
     createCase: function (payload) { return postJson("/cases", payload); },
     streamChat: streamChat,
+    getLineLoginUrl: getLineLoginUrl,
     authorAccount: String(config.mockAuthorAccount || "test1"),
   };
 })(window);

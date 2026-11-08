@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#343b50">
+  <meta name="description" content="選擇身分，使用通訊軟體登入社區小尖兵。">
+  <title>登入｜社區小尖兵</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/base/reset.css">
+  <link rel="stylesheet" href="../../css/base/typography.css">
+  <link rel="stylesheet" href="../../css/base/theme.css">
+  <link rel="stylesheet" href="../../css/pages/login/login.css">
+</head>
+<body>
+  <a class="skip-link" href="#login-panel">跳到登入選項</a>
+  <main class="login-page">
+    <div class="login-shell">
+      <section class="brand-panel" aria-labelledby="brand-title">
+        <div class="brand-lockup">
+          <div class="brand-mark">
+            <img src="../../assets/images/community-pioneer-badge.webp" alt="社區小尖兵吉祥物與標誌">
+          </div>
+          <h1 id="brand-title">和鄰里一起，<br>把生活照顧好</h1>
+          <p class="brand-lead">社區大小事，有人陪您一起處理。</p>
+        </div>
+        <div class="description-card">
+          <span class="card-label">關於社區小尖兵</span>
+          <p>一起關心生活周遭，輕鬆回報社區事件、查詢在地服務，讓每一份需求都能被看見。</p>
+        </div>
+      </section>
+
+      <section class="login-panel" id="login-panel" aria-labelledby="login-title">
+        <div class="login-content">
+          <h2 id="login-title">歡迎回來</h2>
+          <p class="login-hint">請先選擇您在社區的身分</p>
+
+          <div class="role-picker" role="group" aria-label="選擇登入身分">
+            <button class="role-option" type="button" data-role="resident" aria-pressed="false">
+              <span class="role-icon resident-icon" aria-hidden="true">
+                <svg viewBox="0 0 48 48" fill="none"><path d="m8 22 16-13 16 13v17H28V28h-8v11H8V22Z"/><path d="M18 19h.02M30 19h.02"/></svg>
+              </span>
+              <span>住戶</span>
+            </button>
+            <button class="role-option" type="button" data-role="staff" aria-pressed="false">
+              <span class="role-icon staff-icon" aria-hidden="true">
+                <svg viewBox="0 0 48 48" fill="none"><path d="M9 18h30v21H9zM17 18v-5a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v5M9 26h30M20 26v4h8v-4"/></svg>
+              </span>
+              <span>工作人員</span>
+            </button>
+          </div>
+
+          <div class="method-heading">
+            <span aria-hidden="true"></span>
+            <h3>選擇登入方式</h3>
+            <span aria-hidden="true"></span>
+          </div>
+          <button class="line-login" type="button" aria-label="使用通訊軟體登入">
+            <svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M24 7C14.6 7 7 13.4 7 21.3c0 4.8 2.8 9.1 7.2 11.7L12.7 41l8.7-4.6c.9.1 1.7.2 2.6.2 9.4 0 17-6.4 17-14.3S33.4 7 24 7Z"/><path d="M16.5 21h15"/></svg>
+            <span>登入</span>
+          </button>
+          <p class="login-status" id="login-status" role="status" aria-live="polite">選擇身分後，即可使用通訊軟體登入。</p>
+        </div>
+        <p class="login-footer">登入即表示您同意遵守社區服務使用規範</p>
+      </section>
+    </div>
+  </main>
+  <script src="../../api/runtime-config.js"></script>
+  <script src="../../api/community-api.js"></script>
+  <script src="../../js/login/login.js" defer></script>
+</body>
+</html>

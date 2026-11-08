@@ -87,6 +87,10 @@ npm run dev
 | `GET /places`、`GET /places/reverse` | 搜尋及反向查詢地點 |
 | `POST /cases` | 建立社區事件案件 |
 
+### LINE 登入串接
+
+登入頁會導向由 `LINE_LOGIN_PATH` 指定的後端登入入口，並以 `role=resident` 或 `role=staff` 傳送所選身分。後端入口預期以瀏覽器導向方式啟動 LINE OAuth（例如回應重新導向），並負責驗證回呼、建立登入狀態及導回前端。請在 `.env` 設定相對於 API 根路徑的端點，例如 `LINE_LOGIN_PATH=/auth/line/login`，再重新啟動開發伺服器。未設定時，登入按鈕會顯示尚未串接提示。
+
 ## 設定檔與安全
 
 `.env`、產生的 `api/runtime-config.js`、`node_modules/` 和建置輸出都已列入 Git 忽略規則。請勿將 API 金鑰或其他機密提交至遠端倉庫。提交前確認 `.env` 沒有被追蹤；公開倉庫只應包含 `.env.example`。

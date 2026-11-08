@@ -31,6 +31,7 @@ $apiBaseUrl = if ($useApiProxy) { "/api" }
   elseif ($environment.ContainsKey("API_BASE_URL")) { $environment["API_BASE_URL"] }
   else { "/api" }
 $authorAccount = if ($environment.ContainsKey("MOCK_AUTHOR_ACCOUNT")) { $environment["MOCK_AUTHOR_ACCOUNT"] } else { "test1" }
+$lineLoginPath = if ($environment.ContainsKey("LINE_LOGIN_PATH")) { $environment["LINE_LOGIN_PATH"] } else { "" }
 $googleMapsApiKey = if ($environment.ContainsKey("GOOGLE_MAPS_API_KEY")) { $environment["GOOGLE_MAPS_API_KEY"] } else { "" }
 if ($authorAccount -notmatch '^[A-Za-z0-9]+$') {
   throw "MOCK_AUTHOR_ACCOUNT must contain only English letters and numbers."
@@ -40,9 +41,10 @@ $runtimeConfig = @(
   "window.CommunityConfig = Object.freeze({"
   "  apiBaseUrl: $(ConvertTo-Json -InputObject $apiBaseUrl -Compress),"
   "  mockAuthorAccount: $(ConvertTo-Json -InputObject $authorAccount -Compress),"
+  "  lineLoginPath: $(ConvertTo-Json -InputObject $lineLoginPath -Compress),"
   "  googleMapsApiKey: $(ConvertTo-Json -InputObject $googleMapsApiKey -Compress),"
   "  allowDesktopReportPreview: false"
 ) -join [Environment]::NewLine
 $runtimeConfig += [Environment]::NewLine + "});"
 [System.IO.File]::WriteAllText($outputFile, $runtimeConfig, [System.Text.UTF8Encoding]::new($false))
-Write-Output "Generated api/runtime-config.js from API_BASE_URL, MOCK_AUTHOR_ACCOUNT, and GOOGLE_MAPS_API_KEY."
+Write-Output "Generated api/runtime-config.js from API_BASE_URL, LINE_LOGIN_PATH, MOCK_AUTHOR_ACCOUNT, and GOOGLE_MAPS_API_KEY."
