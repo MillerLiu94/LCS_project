@@ -87,6 +87,8 @@ npm run dev
 | `GET /places`、`GET /places/reverse` | 搜尋及反向查詢地點 |
 | `POST /cases` | 建立社區事件案件 |
 
+首頁 AI 輸入可附加最多 4 張圖片。帶圖片的 `POST /chat/stream` 會在原有 `message`、`messages` 欄位之外附上 `images` 陣列；每個項目包含 `name`、`type` 與 JPEG `dataUrl`（Base64 data URL）。後端需將這些圖片轉成模型支援的多模態內容；未附圖時，原有文字請求格式不變。語音輸入由瀏覽器辨識成文字，不會上傳錄音。
+
 ### LINE 登入串接
 
 登入頁會導向由 `LINE_LOGIN_PATH` 指定的後端登入入口，並以 `role=resident` 或 `role=staff` 傳送所選身分。後端入口預期以瀏覽器導向方式啟動 LINE OAuth（例如回應重新導向），並負責驗證回呼、建立登入狀態及導回前端。請在 `.env` 設定相對於 API 根路徑的端點，例如 `LINE_LOGIN_PATH=/auth/line/login`，再重新啟動開發伺服器。未設定時，登入按鈕會顯示尚未串接提示。

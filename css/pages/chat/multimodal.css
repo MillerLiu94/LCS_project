@@ -1,0 +1,109 @@
+.app-frame .prompt-card {
+  grid-template-areas: "attachments" "prompt" "actions" "status";
+  gap: 5px 8px;
+}
+.attachment-tray {
+  grid-area: attachments;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  padding: 4px 8px 7px;
+}
+.attachment-tray[hidden] { display: none; }
+.attachment-preview {
+  position: relative;
+  width: 68px;
+  height: 60px;
+  overflow: visible;
+  border: 1px solid #d6dae2;
+  border-radius: 10px;
+  background: #f1f3f6;
+}
+.attachment-preview img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: cover;
+}
+.attachment-remove {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  display: grid;
+  width: 26px;
+  height: 26px;
+  place-items: center;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #343b50;
+  color: #fff;
+  font: inherit;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+.app-frame .composer-actions {
+  width: 100%;
+  justify-self: stretch;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.app-frame .composer-icon-button,
+.app-frame .multimodal-send {
+  display: grid;
+  flex: 0 0 48px;
+  width: 48px;
+  min-width: 48px;
+  height: 48px;
+  min-height: 48px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background .18s var(--ease-out), color .18s var(--ease-out), transform .18s var(--ease-out);
+}
+.app-frame .composer-icon-button { background: #f0f1f4; color: #343b50; }
+.app-frame .composer-icon-button:hover:not(:disabled) { transform: translateY(-1px); background: #e5e8ef; }
+.app-frame .composer-icon-button:disabled { color: #8c9099; cursor: not-allowed; }
+.app-frame .composer-icon-button[aria-pressed="true"] { background: #fce8e8; color: #a12f34; }
+.app-frame .composer-icon-button svg {
+  width: 23px;
+  height: 23px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.app-frame .multimodal-send { background: var(--primary); color: var(--on-primary); }
+.app-frame .multimodal-send:hover { transform: translateY(-1px); background: #c8d9ff; }
+.app-frame .multimodal-send svg { width: 22px; height: 22px; }
+.app-frame .composer-icon-button:focus-visible,
+.app-frame .multimodal-send:focus-visible,
+.attachment-remove:focus-visible { outline: 3px solid #4267ae; outline-offset: 3px; }
+.app-frame .prompt-card .prompt-placeholder { grid-area: prompt; }
+.app-frame .prompt-card .prompt-status { grid-area: status; }
+.message-image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 150px));
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.message-image {
+  display: block;
+  width: 100%;
+  max-height: 190px;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--brand-line);
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+@media (max-width: 620px) {
+  .attachment-preview { width: 62px; height: 56px; }
+  .app-frame .composer-actions { gap: 6px; }
+  .app-frame .composer-icon-button,
+  .app-frame .multimodal-send { flex-basis: 46px; width: 46px; min-width: 46px; height: 46px; min-height: 46px; }
+}

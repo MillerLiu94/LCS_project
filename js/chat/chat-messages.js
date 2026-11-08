@@ -1,13 +1,30 @@
 (function (global) {
   "use strict";
 
-  function createUser(list, text) {
+  function createUser(list, text, images) {
     var row = document.createElement("article");
     row.className = "message message--user";
     row.setAttribute("aria-label", "你的訊息");
     var bubble = document.createElement("div");
     bubble.className = "message-bubble";
-    bubble.textContent = text;
+    if (Array.isArray(images) && images.length) {
+      var gallery = document.createElement("div");
+      gallery.className = "message-image-grid";
+      images.forEach(function (item) {
+        if (!item || !/^data:image\/(?:jpeg|png|webp);base64,/i.test(item.dataUrl || "")) return;
+        var image = document.createElement("img");
+        image.className = "message-image";
+        image.src = item.dataUrl;
+        image.alt = item.name || "附加圖片";
+        image.loading = "lazy";
+        gallery.appendChild(image);
+      });
+      if (gallery.childElementCount) bubble.appendChild(gallery);
+    }
+    var content = document.createElement("span");
+    content.className = "message-text";
+    content.textContent = text;
+    bubble.appendChild(content);
     row.appendChild(bubble);
     list.appendChild(row);
   }

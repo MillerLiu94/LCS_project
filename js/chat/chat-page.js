@@ -44,7 +44,7 @@
     var retry = document.createElement("button");
     retry.type = "button";
     retry.textContent = "重新嘗試";
-    retry.addEventListener("click", function () { sendMessage(prompt, assistant, true); });
+    retry.addEventListener("click", function () { sendMessage(prompt, assistant, true, assistant.images); });
     error.append(detail, retry);
     assistant.content.appendChild(error);
     assistant.error = error;
@@ -56,12 +56,14 @@
       throw new Error((data && (data.detail || data.error || data.message)) || text || "AI 服務暫時無法使用，請稍後再試。");
     });
   }
-  function sendMessage(prompt, retryTarget, isRetry) {
+  function sendMessage(prompt, retryTarget, isRetry, imagePayload) {
     var message = String(prompt || "").trim();
     if (!message || busy) return;
+    var images = isRetry ? retryTarget.images || [] : Array.isArray(imagePayload) ? imagePayload : [];
     welcome.hidden = true;
-    if (!isRetry) window.ChatMessages.createUser(list, message);
+    if (!isRetry) window.ChatMessages.createUser(list, message, images);
     var assistant = window.ChatMessages.createAssistant(list, retryTarget);
+    assistant.images = images;
     assistant.reportIntent = isRetry ? assistant.reportIntent : window.ChatMessages.hasReportIntent(message);
     var requestMessages = history.concat([{ role: "user", content: message }]);
     var controller = new AbortController();
@@ -72,7 +74,7 @@
     updateSendButton();
     scrollToLatest(true);
 
-    window.CommunityApi.streamChat(message, requestMessages, controller.signal)
+    window.CommunityApi.streamChat(message, requestMessages, controller.signal, images)
       .then(function (response) {
         if (!response.ok) return readError(response);
         return window.ChatStream.consume(response, function (chunk) {
@@ -158,9 +160,17 @@
   document.getElementById("clear-chat").addEventListener("click", clearChat);
   updateSendButton();
   var firstMessage = "";
+  var firstImages = [];
   try {
     firstMessage = window.sessionStorage.getItem("communityChatFirstPrompt") || "";
     window.sessionStorage.removeItem("communityChatFirstPrompt");
   } catch (_) { firstMessage = ""; }
-  if (firstMessage.trim()) sendMessage(firstMessage);
+  try {
+    var firstPayload = JSON.parse(firstMessage);
+    if (firstPayload && typeof firstPayload === "object") {
+      firstMessage = firstPayload.message || "";
+      firstImages = Array.isArray(firstPayload.images) ? firstPayload.images : [];
+    }
+  } catch (_) {}
+  if (firstMessage.trim()) sendMessage(firstMessage, null, false, firstImages);
 })();

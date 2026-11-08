@@ -6,9 +6,13 @@
   <meta name="theme-color" content="#343b50">
   <meta name="description" content="社區小尖兵社區服務首頁，陪您處理社區大小事。">
   <title>社區小尖兵｜首頁</title>
+  <link rel="preload" as="image" href="assets/images/community-pioneer-badge.webp" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/images/stickers/report.webp" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/images/stickers/local-life.webp" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/images/stickers/nearby-events.webp" fetchpriority="high">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/base/reset.css">
   <link rel="stylesheet" href="css/base/typography.css">
   <link rel="stylesheet" href="css/base/theme.css">
@@ -17,6 +21,7 @@
   <link rel="stylesheet" href="css/components/card.css">
   <link rel="stylesheet" href="css/components/modal.css">
   <link rel="stylesheet" href="css/pages/home.css">
+  <link rel="stylesheet" href="css/pages/chat/multimodal.css">
   <link rel="stylesheet" href="css/components/touch-feedback.css">
 </head>
 <body>
@@ -27,8 +32,8 @@
         <section id="preview" class="app-frame" aria-label="社區小尖兵首頁" tabindex="0">
           <header class="app-topbar">
             <nav class="main-nav" aria-label="首頁功能">
-              <span class="nav-item" aria-current="page">申報事件總覽</span>
-              <span class="nav-item">我的申報事件</span>
+              <a class="nav-item" href="./pages/local-info/event-overview.html">申報事件總覽</a>
+              <a class="nav-item" href="./pages/local-info/my-reports.html">我的申報事件</a>
             </nav>
             <div class="place-chip" role="group" aria-label="位置與天氣資訊" data-location-container aria-busy="true">
               <button class="location-refresh" type="button" data-location-refresh aria-label="更新目前位置" title="更新目前位置"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></button>
@@ -37,7 +42,7 @@
           </header>
           <div class="screen-content">
             <section class="welcome" aria-labelledby="slogan">
-              <div class="brand-plate"><img class="brand-logo" src="assets/images/community-pioneer-badge.webp" alt="社區小尖兵"></div>
+              <div class="brand-plate"><img class="brand-logo" src="assets/images/community-pioneer-badge.webp" fetchpriority="high" alt="社區小尖兵"></div>
               <div class="welcome-copy">
                 <h2 class="slogan" id="slogan">和鄰里一起，把生活照顧好</h2>
                 <p class="welcome-description">社區大小事，有人陪您一起處理。</p>
@@ -46,9 +51,13 @@
 
             <form class="prompt-card" id="home-chat-form" aria-label="開始 AI 對話">
               <label class="sr-only" for="prompt">輸入您要申報或查詢的內容</label>
+              <div class="attachment-tray" id="home-attachments" aria-label="已選擇的圖片" hidden></div>
               <textarea class="prompt-placeholder" id="prompt" name="prompt" rows="1" placeholder="想聊聊生活大小事，或找找需要的服務？" aria-label="輸入訊息"></textarea>
-              <div class="composer-actions" role="group" aria-label="送出控制">
-              <button class="send-control" id="chat-send" type="submit" aria-label="開始對話"><span>開始對話</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
+              <input class="sr-only" id="prompt-images" type="file" accept="image/*" multiple aria-label="選擇圖片">
+              <div class="composer-actions" role="group" aria-label="輸入與送出控制">
+                <button class="composer-icon-button" id="select-image" type="button" aria-label="選擇圖片" title="選擇圖片"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+                <button class="composer-icon-button" id="voice-input" type="button" aria-label="開始語音輸入" aria-pressed="false" title="開始語音輸入"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3m-4 0h8"/></svg></button>
+                <button class="send-control multimodal-send" id="chat-send" type="submit" aria-label="開始對話" title="開始對話"><span class="sr-only">開始對話</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
               </div>
               <p class="prompt-status" id="home-chat-status" role="status" aria-live="polite"></p>
             </form>
@@ -57,8 +66,8 @@
               <div class="services-grid">
                 <div class="service-card" id="desktop-report-notice" role="group" aria-label="申報社區事件僅限手機使用">
                   <span class="sticker-art" aria-hidden="true">
-                    <img class="sticker-image sticker-default" src="assets/images/stickers/report.webp" width="76" height="76" alt="">
-                    <img class="sticker-image sticker-hover" src="assets/images/stickers/report-hover.webp" width="76" height="76" alt="">
+                    <img class="sticker-image sticker-default" src="assets/images/stickers/report.webp" fetchpriority="high" width="76" height="76" alt="">
+                    <img class="sticker-image sticker-hover" src="assets/images/stickers/report-hover.webp" fetchpriority="low" width="76" height="76" alt="">
                   </span>
                   <span>
                     <span class="service-description">申報社區事件</span>
@@ -67,25 +76,25 @@
                 </div>
                 <a class="service-card" id="mobile-report-link" href="./pages/report/report.html" hidden>
                   <span class="sticker-art" aria-hidden="true">
-                    <img class="sticker-image sticker-default" src="assets/images/stickers/report.webp" width="76" height="76" alt="">
-                    <img class="sticker-image sticker-hover" src="assets/images/stickers/report-hover.webp" width="76" height="76" alt="">
+                    <img class="sticker-image sticker-default" src="assets/images/stickers/report.webp" fetchpriority="high" width="76" height="76" alt="">
+                    <img class="sticker-image sticker-hover" src="assets/images/stickers/report-hover.webp" fetchpriority="low" width="76" height="76" alt="">
                   </span>
                   <span class="service-description">申報社區事件</span>
                 </a>
-                <div class="service-card">
+                <a class="service-card" href="./pages/local-info/location.html">
                   <span class="sticker-art" aria-hidden="true">
-                    <img class="sticker-image sticker-default" src="assets/images/stickers/local-life.webp" width="76" height="76" alt="">
-                    <img class="sticker-image sticker-hover" src="assets/images/stickers/local-life-hover.webp" width="76" height="76" alt="">
+                    <img class="sticker-image sticker-default" src="assets/images/stickers/local-life.webp" fetchpriority="high" width="76" height="76" alt="">
+                    <img class="sticker-image sticker-hover" src="assets/images/stickers/local-life-hover.webp" fetchpriority="low" width="76" height="76" alt="">
                   </span>
                   <span class="service-description">查詢福利與在地資訊</span>
-                </div>
-                <div class="service-card">
+                </a>
+                <a class="service-card" href="./pages/local-info/activities-loading.html?target=cases">
                   <span class="sticker-art" aria-hidden="true">
-                    <img class="sticker-image sticker-default" src="assets/images/stickers/nearby-events.webp" width="76" height="76" alt="">
-                    <img class="sticker-image sticker-hover" src="assets/images/stickers/nearby-events-hover.webp" width="76" height="76" alt="">
+                    <img class="sticker-image sticker-default" src="assets/images/stickers/nearby-events.webp" fetchpriority="high" width="76" height="76" alt="">
+                    <img class="sticker-image sticker-hover" src="assets/images/stickers/nearby-events-hover.webp" fetchpriority="low" width="76" height="76" alt="">
                   </span>
                   <span class="service-description">查看附近社區事件</span>
-                </div>
+                </a>
               </div>
             </section>
           </div>
