@@ -42,19 +42,25 @@ button { color: inherit; font: inherit; }
 .login-footer { margin: auto 0 0; padding-top: 34px; color: #b7bfd0; font-size: .76rem; }
 
 @media (max-width: 760px) {
-  .login-page { padding: 16px; }
-  .login-shell { min-height: auto; grid-template-columns: 1fr; gap: 8px; border-radius: 30px; }
+  .login-page { display: block; min-height: 100vh; min-height: 100svh; padding: 16px; }
+  .login-shell { height: max(640px, calc(100vh - 32px)); height: max(640px, calc(100svh - 32px)); min-height: 0; grid-template-columns: 1fr; grid-template-rows: minmax(0, 2fr) minmax(0, 3fr); gap: 8px; margin-inline: auto; border-radius: 30px; }
   .brand-panel { gap: 14px; padding: 20px 18px; border-radius: 23px; }
   .brand-lockup { display: flex; width: 100%; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
   .brand-mark { width: clamp(96px, 28vw, 120px); }
   .brand-lockup h1 { font-size: clamp(1.2rem, 5vw, 1.45rem); line-height: 1.35; text-wrap: balance; }
   .brand-lead { margin-top: 0; font-size: .84rem; line-height: 1.5; }
   .description-card { display: none; }
-  .login-panel { min-height: 420px; padding: 38px 20px 20px; border-radius: 23px; }
-  .role-picker { gap: 14px; padding: 14px 10px; }
-  .role-option { width: min(34vw, 120px); min-height: min(34vw, 120px); }
-  .method-heading { margin-top: 25px; }
-  .login-footer { padding-top: 26px; }
+  .login-panel { min-height: 0; justify-content: flex-start; overflow-y: auto; padding: 10px 20px; border-radius: 23px; }
+  .login-content { flex: 0 0 auto; margin-block: auto; }
+  .login-content h2 { font-size: 1.55rem; }
+  .login-hint { margin: 4px 0 8px; font-size: .88rem; }
+  .role-picker { gap: 14px; padding: 8px 10px; }
+  .role-option { width: min(25vw, 92px); min-height: min(25vw, 92px); }
+  .method-heading { margin: 8px 0; }
+  .line-login { width: 64px; min-height: 64px; }
+  .line-login svg { width: 28px; height: 28px; }
+  .login-status { min-height: 0; margin-top: 6px; font-size: .8rem; line-height: 1.35; }
+  .login-footer { flex: 0 0 auto; margin: 0; padding-top: 10px; font-size: .7rem; }
 }
 
 @media (max-width: 360px) {
