@@ -1,4 +1,4 @@
-.chat-page-frame { --primary: var(--brand-primary); --on-primary: var(--brand-on-primary); --focus: var(--brand-focus); --radius: 18px; width: 100%; min-height: 100vh; min-height: 100dvh; background: var(--brand-page); color: var(--brand-page-ink); }
+.chat-page-frame { --primary: var(--brand-primary); --on-primary: var(--brand-on-primary); --radius: 18px; width: 100%; min-height: 100vh; min-height: 100dvh; background: var(--brand-page); color: var(--brand-page-ink); }
 .chat-page-frame .chat-app { height: calc(100vh - 16px); height: calc(100dvh - max(16px, env(safe-area-inset-bottom))); min-height: 0; }
 .chat-page-frame .chat-main { height: 100%; min-height: 0; }
 .chat-page-frame .chat-composer-wrap { padding: 14px 48px 0; background: linear-gradient(180deg, transparent, var(--brand-page) 18%); }

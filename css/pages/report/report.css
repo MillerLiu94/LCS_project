@@ -8,18 +8,18 @@
       --soft-line: var(--brand-line);
       --accent: var(--brand-primary);
       --accent-ink: var(--brand-on-primary);
-      --focus: var(--brand-focus);
-      --font: "Atkinson Hyperlegible", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      --font: var(--font-news);
     }
     * { box-sizing: border-box; }
     html { min-width: 320px; min-height: 100%; background: var(--brand-page); font-size: 18px; }
     body { min-height: 100vh; margin: 0; padding: 14px; background: var(--paper); color: var(--ink); font-family: var(--font); line-height: 1.5; }
     a { color: inherit; font: inherit; }
-    a:focus-visible { outline: 4px solid var(--focus); outline-offset: 4px; }
     .skip-link { position: fixed; z-index: 10; top: -80px; left: 16px; padding: 10px 16px; border-radius: 12px; background: var(--surface); color: var(--ink); }
     .skip-link:focus { top: 16px; }
     .page-shell { display: flex; width: min(100%, 1320px); min-height: calc(100vh - 28px); flex-direction: column; margin: 0 auto; padding: clamp(16px, 3vw, 34px); border-radius: 34px; background: var(--paper); }
-    .topbar { display: flex; min-height: 44px; align-items: center; justify-content: flex-end; }
+    .topbar { display: flex; min-height: 44px; align-items: center; justify-content: space-between; }
+    .brand-link { display: inline-flex; min-height: 44px; align-items: center; text-decoration: none; }
+    .brand-link img { display: block; width: 112px; height: auto; }
     .home-link { display: inline-flex; min-width: 48px; min-height: 48px; align-items: center; justify-content: center; gap: 7px; padding: 8px 12px; border-radius: 12px; color: var(--ink); font-size: .92rem; font-weight: 700; text-decoration: none; transition: background-color .16s ease, color .16s ease; }
     .home-link svg { width: 19px; height: 19px; }
     main { display: flex; flex: 1; flex-direction: column; align-items: center; justify-content: center; padding: clamp(14px, 3vw, 32px) 0 clamp(28px, 5vh, 52px); }
@@ -29,7 +29,6 @@
     .actions { display: flex; min-width: 0; grid-column: 1; grid-row: 1; flex-direction: column; gap: 16px; padding: 1px 0; }
     .choice-option { display: flex; width: 100%; min-height: 104px; align-items: center; gap: 14px; padding: 8px; border-radius: 18px; color: var(--ink); cursor: default; transition: color .16s ease, transform .16s ease; }
     .choice-option.is-disabled { opacity: .58; }
-    .file-input:focus-visible + .choice-option { outline: 4px solid var(--brand-focus); outline-offset: 3px; }
     .choice-art { display: block; width: 88px; height: 88px; flex: 0 0 88px; object-fit: contain; transition: transform .16s ease; }
     .choice-caption { display: block; min-width: 0; color: inherit; font-size: .95rem; font-weight: 700; line-height: 1.4; }
     .file-input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; clip-path: inset(50%); }

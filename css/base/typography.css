@@ -1,5 +1,6 @@
 :root {
-  font-family: "Atkinson Hyperlegible", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  --font-news: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+  font-family: var(--font-news);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

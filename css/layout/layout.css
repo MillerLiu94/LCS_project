@@ -13,7 +13,7 @@ main {
   padding: 24px;
   background: var(--brand-page);
   color: var(--brand-page-ink);
-  font: 20px/1.6 "Atkinson Hyperlegible", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  font: 20px/1.6 var(--font-news);
   text-align: center;
 }
 

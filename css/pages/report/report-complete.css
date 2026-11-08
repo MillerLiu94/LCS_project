@@ -9,7 +9,7 @@
       padding: 20px;
       background: var(--brand-page);
       color: var(--brand-page-ink);
-      font-family: "Atkinson Hyperlegible", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      font-family: var(--font-news);
       line-height: 1.55;
     }
     .page-content { display: flex; width: min(100%, 620px); flex-direction: column; align-items: center; gap: 24px; }
@@ -50,7 +50,6 @@
       text-decoration: none;
       transition: filter .16s ease, transform .16s ease;
     }
-    .home-link:focus-visible { outline: 4px solid var(--brand-focus); outline-offset: 4px; }
     @media (max-width: 520px) {
       body { padding: 14px; }
       .page-content { gap: 20px; }

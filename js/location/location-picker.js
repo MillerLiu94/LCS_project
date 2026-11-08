@@ -1,6 +1,5 @@
 (function () {
   "use strict";
-
   var flow = window.ReportFlow;
   var mode = document.body.getAttribute("data-location-mode") || "recognition";
   var query = document.getElementById("location-query");
@@ -16,16 +15,13 @@
   var mapPreview;
   if (!query || !searchButton || !currentButton || !results || !selected || !confirm || !status) return;
   var pending = false;
-
   function showStatus(text, error) {
     status.textContent = text;
     status.setAttribute("role", error ? "alert" : "status");
   }
-
   function coordinateText(location) {
     return Number(location.lat).toFixed(6) + ", " + Number(location.lng).toFixed(6);
   }
-
   function renderSelected(location) {
     if (!location) {
       selected.textContent = mode === "edit" ? "目前沒有已選位置。" : "請搜尋地點或使用手機目前位置。";
@@ -38,7 +34,6 @@
     if (mapPreview) mapPreview.setLocation(location);
     confirm.disabled = false;
   }
-
   function saveLocation(lat, lng, fallbackAddress, source) {
     if (pending) {
       if (mapPreview) mapPreview.setLocation(flow.getDraft().location);
@@ -80,7 +75,6 @@
       currentButton.disabled = false;
     });
   }
-
   function renderResults(places) {
     results.replaceChildren();
     if (!places.length) {
@@ -114,7 +108,6 @@
     });
     showStatus("選擇一個搜尋結果以確認位置。");
   }
-
   function searchPlaces() {
     var text = query.value.trim();
     if (pending) return;

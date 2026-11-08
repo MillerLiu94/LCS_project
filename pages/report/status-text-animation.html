@@ -6,14 +6,17 @@
   <meta name="theme-color" content="#343b50">
   <meta name="description" content="社區事件載入動畫。">
   <title>載入中</title>
-  <link rel="preload" as="image" href="../../assets/images/loading_frame/frame_01.webp">
+  <link rel="preload" as="image" href="../../assets/images/loading-analysis-sprite.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../css/pages/report/status-text-animation.css">
   <link rel="stylesheet" href="../../css/components/touch-feedback.css">
 </head>
 <body>
   <main class="loading-screen">
     <div class="loading-content">
-      <div class="loading-animation" role="img" aria-label="申報辨識動畫預覽"></div>
+      <div class="loading-animation" role="img" aria-label="正在分析照片的動畫"></div>
       <p class="progress-status" id="progress-status" role="status" aria-live="polite">準備開始處理照片…</p>
       <progress id="upload-progress" max="100" value="0" hidden aria-label="照片上傳進度"></progress>
       <div class="continue-links">

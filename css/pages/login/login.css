@@ -4,12 +4,10 @@
   --login-panel: #252d3e;
   --login-line: #505d76;
   --login-accent: #b7ceff;
-  --login-focus: #ffe08b;
 }
 
 body { min-width: 320px; min-height: 100vh; background: var(--brand-page); color: var(--login-ink); }
 button { color: inherit; font: inherit; }
-button:focus-visible, a:focus-visible { outline: 4px solid var(--login-focus); outline-offset: 4px; }
 .skip-link { position: absolute; z-index: 2; top: -80px; left: 16px; padding: 12px 18px; border-radius: 10px; background: #fff; color: #202c44; }
 .skip-link:focus { top: 16px; }
 .login-page { display: grid; min-height: 100vh; place-items: center; padding: clamp(18px, 4vw, 56px); }
