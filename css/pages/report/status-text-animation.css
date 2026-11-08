@@ -34,7 +34,7 @@
       width: min(500px, 90vw, 50svh);
       aspect-ratio: 9 / 10;
       background: url("../../../assets/images/loading_frame/frame_01.webp") center / 100% 100% no-repeat;
-      animation: show-loading-frames 1s steps(1, end) infinite;
+      animation: loading-breathe 2s ease-in-out infinite;
     }
 
     .preview-note { margin: 0; color: #e7ebf5; font: 16px/1.5 "Atkinson Hyperlegible", "Noto Sans TC", "Microsoft JhengHei", sans-serif; }
@@ -56,20 +56,9 @@
       .loading-animation { width: min(500px, 100%, 50svh); width: min(500px, 100%, 50dvh); }
     }
 
-    @keyframes show-loading-frames {
-      0% { background-image: url("../../../assets/images/loading_frame/frame_01.webp"); }
-      8.333% { background-image: url("../../../assets/images/loading_frame/frame_02.webp"); }
-      16.667% { background-image: url("../../../assets/images/loading_frame/frame_03.webp"); }
-      25% { background-image: url("../../../assets/images/loading_frame/frame_04.webp"); }
-      33.333% { background-image: url("../../../assets/images/loading_frame/frame_05.webp"); }
-      41.667% { background-image: url("../../../assets/images/loading_frame/frame_06.webp"); }
-      50% { background-image: url("../../../assets/images/loading_frame/frame_07.webp"); }
-      58.333% { background-image: url("../../../assets/images/loading_frame/frame_08.webp"); }
-      66.667% { background-image: url("../../../assets/images/loading_frame/frame_09.webp"); }
-      75% { background-image: url("../../../assets/images/loading_frame/frame_10.webp"); }
-      83.333% { background-image: url("../../../assets/images/loading_frame/frame_11.webp"); }
-      91.667% { background-image: url("../../../assets/images/loading_frame/frame_12.webp"); }
-      100% { background-image: url("../../../assets/images/loading_frame/frame_01.webp"); }
+    @keyframes loading-breathe {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.025); }
     }
 
     @media (prefers-reduced-motion: reduce) {
