@@ -72,7 +72,7 @@ npm run dev
 └── vite.config.js
 ```
 
-主要申報流程說明請參考 [`pages/report/operation-flow.md`](pages/report/operation-flow.md)。
+目前完成進度與主要申報流程請參考 [`operation-flow.md`](operation-flow.md)。
 
 ## API 功能
 
