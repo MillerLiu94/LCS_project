@@ -28,7 +28,7 @@ export default defineConfig(({ mode }) => {
           server.middlewares.use((req, res, next) => {
             if (req.url?.split("?", 1)[0] === "/") {
               res.statusCode = 302;
-              res.setHeader("Location", "/preview/");
+              res.setHeader("Location", "/preview/pages/login/login.html" + (req.url.includes("?") ? req.url.slice(req.url.indexOf("?")) : ""));
               res.end();
               return;
             }

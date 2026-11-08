@@ -91,7 +91,9 @@ npm run dev
 
 ### LINE 登入串接
 
-登入頁會導向由 `LINE_LOGIN_PATH` 指定的後端登入入口，並以 `role=resident` 或 `role=staff` 傳送所選身分。後端入口預期以瀏覽器導向方式啟動 LINE OAuth（例如回應重新導向），並負責驗證回呼、建立登入狀態及導回前端。請在 `.env` 設定相對於 API 根路徑的端點，例如 `LINE_LOGIN_PATH=/auth/line/login`，再重新啟動開發伺服器。未設定時，登入按鈕會顯示尚未串接提示。
+網站入口會先顯示登入頁；首頁也會檢查瀏覽器是否保存登入狀態。登入頁會導向由 `LINE_LOGIN_PATH` 指定的後端登入入口，並以 `role=resident` 或 `role=staff` 傳送所選身分。後端入口需以瀏覽器導向方式啟動 LINE OAuth、驗證回呼並建立伺服器端登入狀態，成功後導回前端登入頁，例如 `/preview/pages/login/login.html?login=success&role=resident`；失敗時可使用 `?login=failed`。登入角色也會暫存在目前分頁，成功回呼若未附 `role`，前端會沿用原先選取的角色。
+
+前端會將成功登入的角色記在 `localStorage`，因此同一瀏覽器之後開啟首頁會保留登入狀態。這份資料只供前端導頁使用，不是登入憑證；需要登入的後端 API 仍須驗證伺服器端建立的登入狀態。請在 `.env` 設定相對於 API 根路徑的端點，例如 `LINE_LOGIN_PATH=/auth/line/login`，再重新啟動開發伺服器。未設定時，登入按鈕會顯示尚未串接提示。
 
 ## 設定檔與安全
 

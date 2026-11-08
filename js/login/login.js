@@ -3,6 +3,12 @@ const lineLogin = document.querySelector(".line-login");
 const statusMessage = document.querySelector("#login-status");
 let selectedRole = "";
 
+if (window.CommunityAuth.callbackResult() === "failed") {
+  statusMessage.textContent = "登入未完成，請再試一次。";
+} else if (window.CommunityAuth.callbackResult() === "invalid") {
+  statusMessage.textContent = "無法確認登入身分，請重新選擇身分登入。";
+}
+
 roleOptions.forEach((option) => {
   option.addEventListener("click", () => {
     selectedRole = option.dataset.role;
@@ -22,6 +28,7 @@ lineLogin.addEventListener("click", () => {
   }
   try {
     const loginUrl = window.CommunityApi.getLineLoginUrl(selectedRole);
+    window.CommunityAuth.beginLogin(selectedRole);
     statusMessage.textContent = "正在前往登入服務…";
     window.location.assign(loginUrl);
   } catch (error) {
