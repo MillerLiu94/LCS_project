@@ -82,6 +82,16 @@
           assistant.indicator.hidden = true;
           assistant.text.textContent += chunk;
           scrollToLatest();
+        }, function (event, data) {
+          if (event === "reset") {
+            assistant.text.textContent = "";
+            assistant.indicator.hidden = false;
+          }
+          if (event === "done" && data && typeof data.reply === "string") {
+            assistant.indicator.hidden = true;
+            assistant.text.textContent = data.reply;
+            scrollToLatest();
+          }
         });
       })
       .then(function () {

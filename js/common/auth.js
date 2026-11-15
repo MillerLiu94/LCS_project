@@ -1,77 +1,51 @@
 (function (global) {
   "use strict";
 
-  var sessionKey = "communityLoginState";
-  var pendingRoleKey = "communityPendingLoginRole";
   var scriptUrl = document.currentScript ? document.currentScript.src : location.href;
   var appRoot = new URL("../../", scriptUrl);
   var callbackResult = "";
-
-  function isValidRole(role) {
-    return role === "resident" || role === "staff";
-  }
-
-  function read() {
-    try {
-      var state = JSON.parse(localStorage.getItem(sessionKey) || "null");
-      return state && isValidRole(state.role) ? state : null;
-    } catch (_) {
-      return null;
-    }
-  }
-
-  function save(role) {
-    if (!isValidRole(role)) return false;
-    try {
-      localStorage.setItem(sessionKey, JSON.stringify({ role: role, authenticatedAt: Date.now() }));
-    } catch (_) {
-      return false;
-    }
-    try { sessionStorage.removeItem(pendingRoleKey); } catch (_) {}
-    return true;
-  }
+  var currentUser = null;
 
   function processCallback() {
     var params = new URLSearchParams(location.search);
     var result = params.get("login");
-    if (result !== "success" && result !== "failed") return;
+    var hasCallback = result === "success" || result === "failed" || params.has("reason");
+    if (!hasCallback) return;
 
-    callbackResult = result;
-    if (result === "success") {
-      var role = params.get("role");
-      try { role = role || sessionStorage.getItem(pendingRoleKey); } catch (_) {}
-      callbackResult = save(role) ? "success" : "invalid";
-    } else {
-      try { sessionStorage.removeItem(pendingRoleKey); } catch (_) {}
-    }
-
+    callbackResult = result === "failed" || params.has("reason") ? "failed" : "success";
     params.delete("login");
     params.delete("role");
+    params.delete("reason");
     var query = params.toString();
     history.replaceState({}, "", location.pathname + (query ? "?" + query : "") + location.hash);
   }
 
   function initialize(page) {
     processCallback();
-    var session = read();
-    if (page === "login" && session && callbackResult !== "failed" && callbackResult !== "invalid") {
-      location.replace(new URL("./", appRoot).href);
-      return;
-    }
-    if (page === "home" && !session) {
-      location.replace(new URL("pages/login/login.html", appRoot).href);
-    }
-  }
-
-  function beginLogin(role) {
-    if (!isValidRole(role)) return;
-    try { sessionStorage.setItem(pendingRoleKey, role); } catch (_) {}
+    return global.CommunityApi.getCurrentUser().then(function (user) {
+      currentUser = user;
+      if (page === "login" && callbackResult !== "failed") {
+        location.replace(new URL("./", appRoot).href);
+      }
+      return user;
+    }).catch(function (error) {
+      currentUser = null;
+      if (error.status === 401) {
+        if (page === "home") {
+          location.replace(new URL("pages/login/login.html", appRoot).href);
+        } else if (page === "login" && callbackResult === "success") {
+          callbackResult = "invalid";
+        }
+        return null;
+      }
+      if (page === "login") throw error;
+      return null;
+    });
   }
 
   global.CommunityAuth = {
     initialize: initialize,
-    beginLogin: beginLogin,
-    read: read,
+    read: function () { return currentUser; },
     callbackResult: function () { return callbackResult; },
   };
 })(window);

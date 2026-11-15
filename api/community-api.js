@@ -13,13 +13,16 @@
     return response.text().then(function (text) {
       var data;
       try { data = JSON.parse(text); } catch (_) { data = null; }
-      throw new Error((data && (data.detail || data.error)) || text || "後端服務暫時無法使用。");
+      var error = new Error((data && (data.detail || data.error)) || text || "後端服務暫時無法使用。");
+      error.status = response.status;
+      throw error;
     });
   }
 
   function getJson(path) {
     return fetch(apiUrl(path), {
       headers: { Accept: "application/json" },
+      credentials: "include",
       cache: "no-store",
     }).then(function (response) {
       if (!response.ok) return responseError(response);
@@ -31,6 +34,7 @@
     return fetch(apiUrl(path), {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
+      credentials: "include",
       body: JSON.stringify(body),
     }).then(function (response) {
       if (!response.ok) return responseError(response);
@@ -52,6 +56,7 @@
     return fetch(apiUrl("/chat/stream"), {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "text/event-stream" },
+      credentials: "include",
       body: JSON.stringify(body),
       signal: signal,
       cache: "no-store",
@@ -64,6 +69,7 @@
       files.forEach(function (file) { form.append("files", file, file.name); });
       var request = new XMLHttpRequest();
       request.open("POST", apiUrl("/uploads"));
+      request.withCredentials = true;
       request.responseType = "json";
       request.upload.onprogress = function (event) {
         if (event.lengthComputable && onProgress) {
@@ -93,6 +99,8 @@
       return getJson("/places/reverse?lat=" + encodeURIComponent(lat) + "&lng=" + encodeURIComponent(lng));
     },
     createCase: function (payload) { return postJson("/cases", payload); },
+    getCurrentUser: function () { return getJson("/auth/me"); },
+    logout: function () { return postJson("/auth/logout", {}); },
     getEvents: function (offset, limit) {
       return getJson("/events?offset=" + encodeURIComponent(offset) + "&limit=" + encodeURIComponent(limit));
     },
