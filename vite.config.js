@@ -4,6 +4,7 @@ import { defineConfig, loadEnv } from "vite";
 
 const previewRoot = path.dirname(fileURLToPath(import.meta.url));
 const siteRoot = path.resolve(previewRoot, "..");
+const projectDirectory = path.basename(previewRoot);
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, previewRoot, "");
@@ -26,9 +27,17 @@ export default defineConfig(({ mode }) => {
         name: "preview-root-redirect",
         configureServer(server) {
           server.middlewares.use((req, res, next) => {
-            if (req.url?.split("?", 1)[0] === "/") {
+            const requestPath = req.url?.split("?", 1)[0];
+            const query = req.url?.includes("?") ? req.url.slice(req.url.indexOf("?")) : "";
+            if (requestPath === "/" || requestPath === "/preview" || requestPath === "/preview/") {
               res.statusCode = 302;
-              res.setHeader("Location", "/preview/pages/login/login.html" + (req.url.includes("?") ? req.url.slice(req.url.indexOf("?")) : ""));
+              res.setHeader("Location", `/${projectDirectory}/pages/login/login.html` + query);
+              res.end();
+              return;
+            }
+            if (projectDirectory !== "preview" && requestPath?.startsWith("/preview/")) {
+              res.statusCode = 302;
+              res.setHeader("Location", `/${projectDirectory}/${requestPath.slice("/preview/".length)}` + query);
               res.end();
               return;
             }
