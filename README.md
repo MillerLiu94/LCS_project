@@ -24,7 +24,6 @@ GitHub repository：[MillerLiu94/LCS_project](https://github.com/MillerLiu94/LCS
 
 - Node.js `^20.19.0` 或 `>=22.12.0`，以及 npm
 - Git
-- Windows PowerShell（啟動命令會執行 PowerShell 設定腳本）
 - 專案相容的後端 API；地圖功能另需 Google Maps API Key
 
 ## 本機啟動
@@ -42,13 +41,10 @@ Copy-Item .env.example .env
 
 ```dotenv
 API_BASE_URL=https://your-backend.example.com
-API_USE_PROXY=true
-MOCK_AUTHOR_ACCOUNT=test1
-GOOGLE_MAPS_API_KEY=
 DEV_TUNNEL_HOST=
 ```
 
-`API_BASE_URL` 請填後端網址，可使用服務根網址或以 `/api` 結尾。使用 Vite `/api` 代理時，將 `API_USE_PROXY` 設為 `true`；若前端直接連線後端則設為 `false`，並確認後端允許此網站的跨來源請求（CORS）。`GOOGLE_MAPS_API_KEY` 可留空；若要使用地圖，請填入已啟用 Maps JavaScript API 的金鑰。瀏覽器端金鑰會公開給訪客，請在 Google Cloud 限制允許的網域與 API。
+`API_BASE_URL` 請填後端服務根網址。Vite 會將 `/api` 與 `/uploads` 轉送到這個主機；前端設定、LINE 登入路徑和地圖瀏覽器金鑰由後端 `/api/runtime-config.js` 提供。
 
 啟動開發伺服器：
 
@@ -56,7 +52,7 @@ DEV_TUNNEL_HOST=
 npm run dev
 ```
 
-開啟 <http://localhost:5500/preview/>。若透過開發隧道存取，請將隧道主機名稱填入 `DEV_TUNNEL_HOST`。
+開啟終端機顯示的網址。若透過開發隧道存取，請將隧道主機名稱填入 `DEV_TUNNEL_HOST`。
 
 ## 專案結構
 
@@ -80,21 +76,27 @@ npm run dev
 
 | 路徑 | 用途 |
 | --- | --- |
+| `GET /api/runtime-config.js` | 載入執行期 API、LINE 登入和地圖設定 |
+| `GET /auth/me`、`POST /auth/logout`、`GET /auth/line/login` | 讀取登入者、登出和啟動 LINE 登入 |
+| `GET /categories` | 取得案件類別並核對照片分析結果 |
 | `GET /weather` | 依座標取得天氣 |
-| `POST /chat/stream` | 串流 AI 對話 |
+| `POST /chat/stream`、`POST /chat` | 串流聊天；串流端點無法使用時改走一般聊天 |
+| `GET /events`、`GET /events/{event_id}` | 讀取社區事件列表和詳情 |
+| `GET /welfare` | 依地區、類型、對象和時間搜尋福利／活動 |
 | `POST /uploads` | 上傳申報照片 |
 | `POST /ai-analyze` | 分析照片內容 |
+| `GET /cases`、`POST /cases` | 查詢登入者案件和建立案件 |
 | `GET /places`、`GET /places/reverse` | 搜尋及反向查詢地點 |
-| `POST /cases` | 建立社區事件案件 |
+| `POST /transcribe` | 上傳錄音並取得語音辨識文字 |
 
-首頁 AI 輸入可附加最多 4 張圖片。帶圖片的 `POST /chat/stream` 會在原有 `message`、`messages` 欄位之外附上 `images` 陣列；每個項目包含 `name`、`type` 與 JPEG `dataUrl`（Base64 data URL）。後端需將這些圖片轉成模型支援的多模態內容；未附圖時，原有文字請求格式不變。語音輸入由瀏覽器辨識成文字，不會上傳錄音。
+首頁 AI 輸入可附加最多 4 張圖片。聊天 API 不接收圖片；前端會先用 `/ai-analyze` 分析附圖，再把分析結果和問題送入聊天。語音按鈕會錄音並以 multipart `file`、`language` 欄位呼叫 `/transcribe`。
 
 ### LINE 登入串接
 
-網站入口會先顯示登入頁；首頁也會檢查瀏覽器是否保存登入狀態。登入頁會導向由 `LINE_LOGIN_PATH` 指定的後端登入入口，並以 `role=resident` 或 `role=staff` 傳送所選身分。後端入口需以瀏覽器導向方式啟動 LINE OAuth、驗證回呼並建立伺服器端登入狀態，成功後導回前端登入頁，例如 `/preview/pages/login/login.html?login=success&role=resident`；失敗時可使用 `?login=failed`。登入角色也會暫存在目前分頁，成功回呼若未附 `role`，前端會沿用原先選取的角色。
+未登入進入首頁時，前端會導向登入頁；登入成功後返回首頁或原先要求的頁面。首頁不提供登入或登出入口；上傳照片、建立案件和查看「我的申報」仍需要有效的 LINE session。
 
-前端會將成功登入的角色記在 `localStorage`，因此同一瀏覽器之後開啟首頁會保留登入狀態。這份資料只供前端導頁使用，不是登入憑證；需要登入的後端 API 仍須驗證伺服器端建立的登入狀態。請在 `.env` 設定相對於 API 根路徑的端點，例如 `LINE_LOGIN_PATH=/auth/line/login`，再重新啟動開發伺服器。未設定時，登入按鈕會顯示尚未串接提示。
+LINE OAuth 的 Channel、callback URL、session secret 和前端回跳網址由後端設定；前端不保存 access token，也不以本機帳號欄位決定案件作者。
 
 ## 設定檔與安全
 
-`.env`、產生的 `api/runtime-config.js`、`node_modules/` 和建置輸出都已列入 Git 忽略規則。請勿將 API 金鑰或其他機密提交至遠端倉庫。提交前確認 `.env` 沒有被追蹤；公開倉庫只應包含 `.env.example`。
+`.env`、`api/runtime-config.js`、`node_modules/` 和建置輸出都已列入 Git 忽略規則。請勿將 API 金鑰或其他機密提交至遠端倉庫。提交前確認 `.env` 沒有被追蹤；公開倉庫只應包含 `.env.example`。
