@@ -20,6 +20,28 @@
     return /^正在(?:思考|查資料庫|搜尋外部資料|整理回覆)(?:…|\.{3})?$/.test(String(value || "").trim());
   }
 
+  var progressPattern = /正在(?:思考|查資料庫|搜尋外部資料|整理回覆)(?:…|\.{3})/g;
+  var progressVariants = [
+    "正在思考", "正在思考…", "正在思考...",
+    "正在查資料庫", "正在查資料庫…", "正在查資料庫...",
+    "正在搜尋外部資料", "正在搜尋外部資料…", "正在搜尋外部資料...",
+    "正在整理回覆", "正在整理回覆…", "正在整理回覆...",
+  ];
+
+  function progressPrefixAtEnd(value) {
+    var longest = 0;
+    progressVariants.forEach(function (variant) {
+      var limit = Math.min(value.length, variant.length - 1);
+      for (var size = limit; size > longest; size -= 1) {
+        if (value.slice(-size) === variant.slice(0, size)) {
+          longest = size;
+          break;
+        }
+      }
+    });
+    return longest;
+  }
+
   function looksLikeSse(value) {
     return /^\uFEFF?\s*(?:event|data):/m.test(value);
   }
@@ -36,7 +58,6 @@
     var payload = null;
     try { payload = JSON.parse(raw); } catch (_) { payload = raw; }
     var text = name === "delta" || name === "message" ? textFrom(raw) : "";
-    if (isProgressText(text)) text = "";
     return {
       name: name,
       payload: payload,
@@ -45,11 +66,29 @@
   }
 
   function consume(response, onText, onControl) {
+    var pendingText = "";
+    function emitText(value, flush) {
+      var text = pendingText + String(value || "");
+      pendingText = "";
+      text = text.replace(progressPattern, "");
+      if (isProgressText(text.trim())) text = "";
+      if (!flush) {
+        var keep = progressPrefixAtEnd(text);
+        if (keep) {
+          pendingText = text.slice(-keep);
+          text = text.slice(0, -keep);
+        }
+      }
+      if (text) onText(text);
+    }
     if (!response.body || !response.body.getReader) {
       return response.text().then(function (text) {
         if ((response.headers.get("content-type") || "").indexOf("text/event-stream") >= 0 || looksLikeSse(text)) {
           text.split(/\r?\n\r?\n/).forEach(function (block) { if (block.trim()) dispatch(block); });
-        } else if (text && !isProgressText(text)) onText(text);
+        } else {
+          emitText(text, true);
+        }
+        emitText("", true);
       });
     }
     var reader = response.body.getReader();
@@ -64,10 +103,11 @@
         throw new Error((event.payload && event.payload.message) || "AI 回覆失敗，請稍後再試。");
       }
       if (event.name === "done" || event.name === "reset") {
+        if (event.name === "reset") pendingText = "";
         if (onControl) onControl(event.name, event.payload);
         return;
       }
-      if (event.text) onText(event.text);
+      if (event.text) emitText(event.text, false);
     }
     function readSseBlocks() {
       var boundary = /\r?\n\r?\n/;
@@ -85,12 +125,15 @@
           if (mode === "sse") {
             readSseBlocks();
             if (buffer.trim()) dispatch(buffer);
-          } else if (buffer && !isProgressText(buffer)) onText(buffer);
+          } else {
+            emitText(buffer, true);
+          }
+          emitText("", true);
           return;
         }
         var chunk = decoder.decode(result.value, { stream: true });
         if (mode === "text") {
-          if (!isProgressText(chunk)) onText(chunk);
+          emitText(chunk, false);
         } else {
           buffer += chunk;
           if (mode === "detect") {
@@ -98,7 +141,7 @@
             if (start && looksLikeSse(start)) mode = "sse";
             else if (start && !"event:".startsWith(start) && !"data:".startsWith(start)) {
               mode = "text";
-              if (!isProgressText(buffer)) onText(buffer);
+              emitText(buffer, false);
               buffer = "";
             }
           }

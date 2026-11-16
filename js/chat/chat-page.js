@@ -70,7 +70,7 @@
     activeController = controller;
     busy = true;
     connection.textContent = "正在回覆";
-    setStatus("AI 正在整理回覆…");
+    setStatus("AI 正在回覆…");
     updateSendButton();
     scrollToLatest(true);
 
