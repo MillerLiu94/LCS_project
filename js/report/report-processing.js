@@ -35,11 +35,22 @@
 
       if (!draft.analysis) {
         status("正在分析照片內容…");
-        tasks.push(Promise.all(files.map(flow.toDataUri)).then(flow.analyze).then(function (analysis) {
+        tasks.push(Promise.all([
+          Promise.all(files.map(flow.toDataUri)).then(flow.analyze),
+          flow.getCategories(),
+        ]).then(function (results) {
+          var analysis = results[0];
+          var categories = results[1];
           var categoryId = Number(analysis && analysis.category_id);
           if (!analysis || analysis.error || !Number.isInteger(categoryId) || categoryId <= 0 || !analysis.description) {
             throw new Error((analysis && analysis.error) || "照片分析結果不完整，請重試。");
           }
+          var category = Array.isArray(categories) && categories.find(function (item) {
+            return Number(item.categories_id) === categoryId;
+          });
+          if (!category) throw new Error("照片分析回傳的案件類別不存在，請重試。");
+          analysis.label = category.label;
+          analysis.key_name = category.key_name;
           flow.saveDraft({ analysis: analysis });
         }));
       }

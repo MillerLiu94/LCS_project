@@ -23,11 +23,19 @@
 
   function formatDate(value) {
     if (!value) return "申報時間未提供";
-    var date = new Date(value);
-    if (isNaN(date.getTime()) || !/^\d{4}-\d{2}-\d{2}/.test(String(value))) return String(value);
+    var timestamp = typeof value === "number" || /^\d{13}$/.test(String(value)) ? Number(value) : value;
+    var date = new Date(timestamp);
+    if (isNaN(date.getTime())) return String(value);
     return new Intl.DateTimeFormat("zh-TW", {
       month: "numeric", day: "numeric", weekday: "short", hour: "2-digit", minute: "2-digit", hour12: false
     }).format(date);
+  }
+
+  function isoDate(value) {
+    if (!value) return "";
+    var timestamp = typeof value === "number" || /^\d{13}$/.test(String(value)) ? Number(value) : value;
+    var date = new Date(timestamp);
+    return isNaN(date.getTime()) ? "" : date.toISOString();
   }
 
   function normalizeCase(record) {
@@ -38,9 +46,9 @@
       category: record.category_name || record.category_label || record.category || record.key_name || "社區事件",
       title: record.title || record.event_title || record.category_name || record.category_label || "社區事件申報",
       reportedAt: formatDate(record.reportedAt || record.reported_at || record.createdAt || record.created_at),
-      iso: record.iso || record.reported_at || record.created_at || "",
+      iso: isoDate(record.iso || record.reported_at || record.created_at),
       place: location,
-      status: record.status_label || record.status || "處理中",
+      status: record.status_label || ({ pending: "待處理", reported: "已通報", "in-progress": "處理中", resolved: "已完成" })[record.status] || record.status || "處理中",
       detail: record.detail || record.description || "未提供事件描述"
     };
   }
@@ -100,7 +108,7 @@
     status.removeAttribute("data-error");
     status.textContent = "正在載入申報紀錄…";
     retry.textContent = "重新載入";
-    window.CommunityApi.getMyCases(window.CommunityApi.authorAccount, loaded, pageSize).then(function (result) {
+    window.CommunityApi.getMyCases(loaded, pageSize).then(function (result) {
       var batch = extractCases(result);
       if (!batch.length) {
         finished = true;
@@ -132,5 +140,7 @@
     }, { rootMargin: "0px", threshold: 0.8 });
   } else retry.hidden = false;
   retry.addEventListener("click", loadNextBatch);
-  loadNextBatch();
+  window.CommunityAuth.initialize("protected").then(function (user) {
+    if (user) loadNextBatch();
+  });
 })();

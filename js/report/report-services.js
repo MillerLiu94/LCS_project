@@ -68,10 +68,10 @@
     },
     toDataUri: toDataUri,
     analyze: api.analyze,
+    getCategories: api.getCategories,
     upload: api.upload,
     searchPlaces: api.searchPlaces,
     reverse: api.reverse,
     createCase: api.createCase,
-    authorAccount: api.authorAccount,
   };
 })(window);
