@@ -3,10 +3,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "predev": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/generate-runtime-config.ps1",
-    "dev": "vite --config vite.config.js"
+    "dev": "vite --config vite.config.js",
+    "test": "playwright test"
   },
   "devDependencies": {
+    "@playwright/test": "^1.65.1",
     "vite": "^8.3.5"
   }
 }
