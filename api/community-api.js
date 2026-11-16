@@ -2,6 +2,8 @@
   "use strict";
 
   var config = global.CommunityConfig || {};
+  var scriptUrl = document.currentScript ? document.currentScript.src : location.href;
+  var appRoot = new URL("../", scriptUrl);
 
   function apiUrl(path) {
     var base = String(config.apiBaseUrl || "/api").replace(/\/+$/, "");
@@ -9,12 +11,36 @@
     return base + (path.charAt(0) === "/" ? path : "/" + path);
   }
 
+  function queryString(values) {
+    var params = new URLSearchParams();
+    Object.keys(values || {}).forEach(function (key) {
+      var value = values[key];
+      if (value !== undefined && value !== null && String(value).trim()) params.set(key, value);
+    });
+    var query = params.toString();
+    return query ? "?" + query : "";
+  }
+
   function responseError(response) {
     return response.text().then(function (text) {
       var data;
       try { data = JSON.parse(text); } catch (_) { data = null; }
-      var error = new Error((data && (data.detail || data.error)) || text || "後端服務暫時無法使用。");
+      var error = new Error((data && (data.detail || data.error || data.message)) || text || "後端服務暫時無法使用。");
       error.status = response.status;
+      throw error;
+    });
+  }
+
+  function redirectToLogin() {
+    var loginUrl = new URL("pages/login/login.html", appRoot);
+    if (location.pathname === loginUrl.pathname) return;
+    try { sessionStorage.setItem("communityAuthReturnTo", location.pathname + location.search + location.hash); } catch (_) {}
+    global.location.assign(loginUrl.href);
+  }
+
+  function protectedRequest(promise) {
+    return promise.catch(function (error) {
+      if (error.status === 401) redirectToLogin();
       throw error;
     });
   }
@@ -46,25 +72,11 @@
     var path = String(config.lineLoginPath || "").trim();
     if (!path) throw new Error("LINE_LOGIN_PATH 尚未設定。");
     if (role !== "resident" && role !== "staff") throw new Error("請選擇有效的登入身分。");
-    // The backend entry endpoint should start OAuth and redirect the browser to LINE.
     return apiUrl(path) + "?role=" + encodeURIComponent(role);
   }
 
-  function streamChat(message, messages, signal, images) {
-    var body = { message: message, messages: messages };
-    if (Array.isArray(images) && images.length) body.images = images;
-    return fetch(apiUrl("/chat/stream"), {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "text/event-stream" },
-      credentials: "include",
-      body: JSON.stringify(body),
-      signal: signal,
-      cache: "no-store",
-    });
-  }
-
   function uploadFiles(files, onProgress) {
-    return new Promise(function (resolve, reject) {
+    return protectedRequest(new Promise(function (resolve, reject) {
       var form = new FormData();
       files.forEach(function (file) { form.append("files", file, file.name); });
       var request = new XMLHttpRequest();
@@ -72,44 +84,65 @@
       request.withCredentials = true;
       request.responseType = "json";
       request.upload.onprogress = function (event) {
-        if (event.lengthComputable && onProgress) {
-          onProgress(Math.round(event.loaded / event.total * 100));
-        }
+        if (event.lengthComputable && onProgress) onProgress(Math.round(event.loaded / event.total * 100));
       };
       request.onload = function () {
         if (request.status >= 200 && request.status < 300 && request.response) resolve(request.response);
-        else reject(new Error((request.response && (request.response.detail || request.response.error)) || "照片上傳失敗，請重試。"));
+        else {
+          var error = new Error((request.response && (request.response.detail || request.response.error)) || "照片上傳失敗，請重試。");
+          error.status = request.status;
+          reject(error);
+        }
       };
       request.onerror = function () { reject(new Error("無法連線到照片上傳服務。")); };
       request.ontimeout = function () { reject(new Error("照片上傳逾時，請重試。")); };
       request.timeout = 120000;
       request.send(form);
-    });
+    }));
+  }
+
+  function transcribe(blob, language, filename) {
+    if (!blob || !blob.size) return Promise.reject(new Error("錄音內容是空的，請重新錄製。"));
+    if (blob.size > 20 * 1024 * 1024) return Promise.reject(new Error("錄音檔超過 20 MB，請縮短錄音。"));
+    var form = new FormData();
+    form.append("file", blob, filename || "recording.webm");
+    form.append("language", language || "zh");
+    return fetch(apiUrl("/transcribe"), { method: "POST", credentials: "include", body: form })
+      .then(function (response) { return response.ok ? response.json() : responseError(response); });
+  }
+
+  function assetUrl(path) {
+    var value = String(path || "").trim();
+    if (!value || /^(?:https?:|data:|blob:)/i.test(value)) return value;
+    return value.charAt(0) === "/" ? value : "/" + value;
   }
 
   global.CommunityApi = {
     apiUrl: apiUrl,
+    redirectToLogin: redirectToLogin,
+    assetUrl: assetUrl,
     getWeather: function (lat, lng) {
-      return getJson("/weather?lat=" + encodeURIComponent(lat) + "&lng=" + encodeURIComponent(lng));
+      return getJson("/weather" + queryString({ lat: lat, lng: lng }));
     },
+    getCategories: function () { return getJson("/categories"); },
     analyze: function (images) { return postJson("/ai-analyze", { images: images }); },
     upload: uploadFiles,
-    searchPlaces: function (query) { return getJson("/places?q=" + encodeURIComponent(query)); },
+    transcribe: transcribe,
+    searchPlaces: function (query) { return getJson("/places" + queryString({ q: query })); },
     reverse: function (lat, lng) {
-      return getJson("/places/reverse?lat=" + encodeURIComponent(lat) + "&lng=" + encodeURIComponent(lng));
+      return getJson("/places/reverse" + queryString({ lat: lat, lng: lng }));
     },
-    createCase: function (payload) { return postJson("/cases", payload); },
+    createCase: function (payload) { return protectedRequest(postJson("/cases", payload)); },
     getCurrentUser: function () { return getJson("/auth/me"); },
     logout: function () { return postJson("/auth/logout", {}); },
-    getEvents: function (offset, limit) {
-      return getJson("/events?offset=" + encodeURIComponent(offset) + "&limit=" + encodeURIComponent(limit));
+    getEvents: function (offset, limit, filters) {
+      return getJson("/events" + queryString(Object.assign({ offset: offset, limit: limit }, filters || {})));
     },
-    getMyCases: function (account, offset, limit) {
-      return getJson("/cases?author_account=" + encodeURIComponent(account) +
-        "&offset=" + encodeURIComponent(offset) + "&limit=" + encodeURIComponent(limit));
+    getEvent: function (eventId) { return getJson("/events/" + encodeURIComponent(eventId)); },
+    getMyCases: function (offset, limit) {
+      return protectedRequest(getJson("/cases" + queryString({ offset: offset, limit: limit })));
     },
-    streamChat: streamChat,
+    getWelfare: function (filters) { return getJson("/welfare" + queryString(filters)); },
     getLineLoginUrl: getLineLoginUrl,
-    authorAccount: String(config.mockAuthorAccount || "test1"),
   };
 })(window);
