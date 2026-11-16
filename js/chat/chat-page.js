@@ -9,6 +9,7 @@
   var welcome = document.getElementById("welcome-card");
   var status = document.getElementById("chat-status");
   var connection = document.getElementById("connection-status");
+  var multimodal = window.ChatMultimodal;
   if (!form || !input || !send || !list || !scroll) return;
 
   var history = [];
@@ -29,12 +30,15 @@
     });
   }
   function updateSendButton() {
-    send.disabled = !busy && !input.value.trim();
+    send.disabled = !busy && !input.value.trim() && !multimodal.hasImages();
+    multimodal.setBusy(busy);
     send.setAttribute("aria-label", busy ? "停止生成" : "送出訊息");
+    send.title = busy ? "停止生成" : "送出訊息";
     send.innerHTML = busy
-      ? '<span>停止生成</span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"/></svg>'
-      : '<span>送出訊息</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>';
+      ? '<span class="sr-only">停止生成</span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"/></svg>'
+      : '<span class="sr-only">送出訊息</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>';
   }
+  document.addEventListener("chat-multimodal-change", updateSendButton);
   function showError(message, prompt, assistant) {
     assistant.row.classList.remove("message--streaming");
     var error = document.createElement("div");
@@ -58,8 +62,9 @@
   }
   function sendMessage(prompt, retryTarget, isRetry, imagePayload) {
     var message = String(prompt || "").trim();
-    if (!message || busy) return;
     var images = isRetry ? retryTarget.images || [] : Array.isArray(imagePayload) ? imagePayload : [];
+    if (!message && images.length) message = "請看看我附上的圖片，並依照圖片內容回答。";
+    if (!message || busy) return;
     welcome.hidden = true;
     if (!isRetry) window.ChatMessages.createUser(list, message, images);
     var assistant = window.ChatMessages.createAssistant(list, retryTarget);
@@ -70,7 +75,7 @@
     activeController = controller;
     busy = true;
     connection.textContent = "正在回覆";
-    setStatus("AI 正在回覆…");
+    setStatus(images.length ? "AI 正在分析附圖…" : "AI 正在回覆…");
     updateSendButton();
     scrollToLatest(true);
 
@@ -129,12 +134,19 @@
   form.addEventListener("submit", function (event) {
     event.preventDefault();
     if (busy) { activeController.abort(); return; }
+    if (multimodal.isProcessing()) { setStatus("圖片處理中，完成後就能送出。"); return; }
     var message = input.value.trim();
-    if (!message) return;
+    var images = multimodal.getImages();
+    if (!message && !images.length) return;
+    if (JSON.stringify({ message: message, images: images }).length > 2400000) {
+      setStatus("圖片資料較大，請移除部分圖片後再試。");
+      return;
+    }
     input.value = "";
     input.style.height = "auto";
     updateSendButton();
-    sendMessage(message);
+    sendMessage(message, null, false, images);
+    multimodal.clear();
   });
   input.addEventListener("input", function () {
     input.style.height = "auto";
@@ -142,9 +154,10 @@
     updateSendButton();
   });
   input.addEventListener("keydown", function (event) {
-    if (event.key === "Enter" && !event.shiftKey) {
+    if (event.key === "Enter" && !event.shiftKey && !event.isComposing && event.keyCode !== 229) {
       event.preventDefault();
-      if (!busy && input.value.trim()) form.requestSubmit();
+      if (busy) { send.click(); return; }
+      if (input.value.trim() || multimodal.hasImages()) form.requestSubmit();
     }
   });
   scroll.addEventListener("scroll", function () {
@@ -163,6 +176,7 @@
     connection.textContent = "準備為您服務";
     setStatus("AI 生成的內容可能有誤，請自行確認重要資訊。");
     updateSendButton();
+    multimodal.clear();
     input.value = "";
     input.style.height = "auto";
     if (keepFocus !== false) input.focus();

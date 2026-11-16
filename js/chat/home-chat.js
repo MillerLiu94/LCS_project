@@ -78,47 +78,25 @@
     }).catch(function (error) { status.textContent = error.message || "讀取圖片失敗，請再試一次。"; });
   });
 
-  var Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (voice && Recognition) {
-    var recognition = new Recognition();
-    var heardVoice = false;
-    recognition.lang = "zh-TW";
-    recognition.interimResults = false;
-    recognition.onstart = function () {
-      heardVoice = false;
-      voice.setAttribute("aria-pressed", "true");
-      voice.setAttribute("aria-label", "停止語音輸入");
-      status.textContent = "正在聆聽，請開始說話。";
-    };
-    recognition.onresult = function (event) {
-      heardVoice = true;
-      var transcript = event.results[0][0].transcript.trim();
+  if (voice) window.CommunityAudioRecorder.bind(voice, {
+    onText: function (transcript) {
       input.value = input.value.trim() ? input.value.trimEnd() + " " + transcript : transcript;
       input.dispatchEvent(new Event("input", { bubbles: true }));
       status.textContent = "語音已轉成文字，可以編輯後送出。";
-    };
-    recognition.onerror = function (event) {
-      status.textContent = event.error === "not-allowed" ? "請允許使用麥克風，再試一次。" : "語音辨識未完成，請再試一次或直接輸入。";
-    };
-    recognition.onend = function () {
-      voice.setAttribute("aria-pressed", "false");
-      voice.setAttribute("aria-label", "開始語音輸入");
-      if (!heardVoice && status.textContent === "正在聆聽，請開始說話。") status.textContent = "沒有辨識到語音，請再試一次或直接輸入。";
-    };
-    voice.addEventListener("click", function () {
-      if (voice.getAttribute("aria-pressed") === "true") recognition.stop();
-      else { try { recognition.start(); } catch (_) { status.textContent = "語音輸入正在準備，請稍候再試。"; } }
-    });
-  } else if (voice) {
-    voice.disabled = true;
-    voice.title = "此瀏覽器不支援語音輸入";
-    voice.setAttribute("aria-label", "此瀏覽器不支援語音輸入");
-  }
+    },
+    onStatus: function (message) { status.textContent = message; },
+  });
 
   input.addEventListener("input", function () {
     status.textContent = "";
     input.style.height = "auto";
     input.style.height = Math.min(input.scrollHeight, 220) + "px";
+  });
+  input.addEventListener("keydown", function (event) {
+    if (event.key === "Enter" && !event.shiftKey && !event.isComposing && event.keyCode !== 229) {
+      event.preventDefault();
+      form.requestSubmit();
+    }
   });
   form.addEventListener("submit", function (event) {
     event.preventDefault();

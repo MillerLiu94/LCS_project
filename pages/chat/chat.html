@@ -47,13 +47,17 @@
           </div>
         </div>
         <footer class="chat-composer-wrap">
-          <div class="composer-meta"><span id="chat-status" role="status" aria-live="polite">AI 生成的內容可能有誤，請自行確認重要資訊。</span><span>Enter 送出 · Shift + Enter 換行</span></div>
+          <div class="composer-meta"><span id="chat-status" role="status" aria-live="polite">AI 生成的內容可能有誤，請自行確認重要資訊。</span><span>可附加圖片或使用語音 · Enter 送出 · Shift + Enter 換行</span></div>
           <div class="chat-composer-holder">
             <form class="prompt-card" id="home-chat-form" aria-label="AI 對話輸入">
               <label class="sr-only" for="prompt">輸入訊息</label>
+              <div class="attachment-tray" id="chat-attachments" aria-label="已選擇的圖片" hidden></div>
               <textarea class="prompt-placeholder" id="prompt" name="prompt" rows="1" placeholder="想聊聊生活大小事，或找找需要的服務？" aria-label="輸入訊息"></textarea>
-              <div class="composer-actions" role="group" aria-label="送出控制">
-                <button class="send-control" id="chat-send" type="submit" aria-label="送出訊息"><span>送出訊息</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
+              <input class="sr-only" id="chat-images" type="file" accept="image/*" multiple aria-label="選擇圖片">
+              <div class="composer-actions" role="group" aria-label="輸入與送出控制">
+                <button class="composer-icon-button" id="chat-select-image" type="button" aria-label="新增圖片" title="新增圖片"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+                <button class="composer-icon-button" id="chat-voice-input" type="button" aria-label="開始語音輸入" aria-pressed="false" title="開始語音輸入"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3m-4 0h8"/></svg></button>
+                <button class="send-control multimodal-send" id="chat-send" type="submit" aria-label="送出訊息" title="送出訊息"><span class="sr-only">送出訊息</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
               </div>
               <p class="prompt-status" id="home-chat-status" role="status" aria-live="polite"></p>
             </form>
@@ -62,10 +66,13 @@
       </div>
     </div>
   </main>
-  <script src="../../api/runtime-config.js"></script>
+  <script src="/api/runtime-config.js"></script>
   <script src="../../api/community-api.js"></script>
+  <script src="../../api/chat-api.js"></script>
+  <script src="../../js/common/audio-recorder.js"></script>
   <script src="../../js/chat/chat-stream.js?v=4"></script>
   <script src="../../js/chat/chat-messages.js"></script>
-  <script src="../../js/chat/chat-page.js?v=4"></script>
+  <script src="../../js/chat/chat-multimodal.js"></script>
+  <script src="../../js/chat/chat-page.js?v=6"></script>
 </body>
 </html>
