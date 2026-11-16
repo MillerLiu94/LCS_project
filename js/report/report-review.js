@@ -7,6 +7,8 @@
   var location = document.getElementById("location-summary");
   var description = document.getElementById("description-input");
   var descriptionSummary = document.getElementById("description-summary");
+  var voiceButton = document.getElementById("description-voice");
+  var voiceStatus = document.getElementById("description-voice-status");
   var editButton = document.getElementById("apply-description");
   var submitButton = document.getElementById("submit-case");
   var status = document.getElementById("submit-status");
@@ -36,13 +38,15 @@
     descriptionSummary.textContent = description.value;
   }
 
+  function startEditing() {
+    description.readOnly = false;
+    description.setAttribute("aria-readonly", "false");
+    editButton.textContent = "套用修改";
+    description.focus();
+  }
+
   editButton.addEventListener("click", function () {
-    if (description.readOnly) {
-      description.readOnly = false;
-      editButton.textContent = "套用修改";
-      description.focus();
-      return;
-    }
+    if (description.readOnly) { startEditing(); return; }
     var value = description.value.trim();
     if (value.length < 10) {
       fieldError.textContent = "描述至少需要 10 個字。";
@@ -53,6 +57,7 @@
     fieldError.textContent = "";
     description.removeAttribute("aria-invalid");
     description.readOnly = true;
+    description.setAttribute("aria-readonly", "true");
     editButton.textContent = "修改";
     descriptionSummary.textContent = value;
     draft = flow.saveDraft({ descriptionOverride: value });
@@ -62,6 +67,64 @@
     fieldError.textContent = "";
     description.removeAttribute("aria-invalid");
   });
+
+  function setupVoiceInput() {
+    var Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!voiceButton || !voiceStatus) return;
+    if (!Recognition) {
+      voiceButton.title = "此瀏覽器不支援語音輸入";
+      voiceButton.setAttribute("aria-label", "此瀏覽器不支援語音輸入");
+      return;
+    }
+
+    var recognition;
+    try { recognition = new Recognition(); } catch (_) {
+      voiceButton.title = "語音辨識目前無法使用";
+      voiceButton.setAttribute("aria-label", "語音辨識目前無法使用");
+      return;
+    }
+    var heardVoice = false;
+    recognition.lang = "zh-TW";
+    recognition.interimResults = false;
+    voiceButton.disabled = false;
+    voiceButton.title = "語音輸入案件描述";
+    voiceButton.setAttribute("aria-label", "開始語音輸入");
+    recognition.onstart = function () {
+      heardVoice = false;
+      voiceButton.setAttribute("aria-pressed", "true");
+      voiceButton.setAttribute("aria-label", "停止語音輸入");
+      voiceStatus.textContent = "正在聆聽，請開始說話。";
+    };
+    recognition.onresult = function (event) {
+      var transcript = event.results[0][0].transcript.trim();
+      if (!transcript) return;
+      heardVoice = true;
+      description.value = description.value.trim()
+        ? description.value.trimEnd() + " " + transcript : transcript;
+      description.dispatchEvent(new Event("input", { bubbles: true }));
+      voiceStatus.textContent = "語音已轉成文字，確認後請點「套用修改」。";
+    };
+    recognition.onerror = function (event) {
+      voiceStatus.textContent = event.error === "not-allowed"
+        ? "請允許使用麥克風，再試一次。"
+        : "語音辨識未完成，請再試一次或直接輸入。";
+    };
+    recognition.onend = function () {
+      voiceButton.setAttribute("aria-pressed", "false");
+      voiceButton.setAttribute("aria-label", "開始語音輸入");
+      if (!heardVoice && voiceStatus.textContent === "正在聆聽，請開始說話。") {
+        voiceStatus.textContent = "沒有辨識到語音，請再試一次或直接輸入。";
+      }
+    };
+    voiceButton.addEventListener("click", function () {
+      if (description.readOnly) startEditing();
+      if (voiceButton.getAttribute("aria-pressed") === "true") { recognition.stop(); return; }
+      try { recognition.start(); }
+      catch (_) { voiceStatus.textContent = "語音輸入正在準備，請稍候再試。"; }
+    });
+  }
+
+  setupVoiceInput();
 
   submitButton.addEventListener("click", function () {
     if (submitting) return;

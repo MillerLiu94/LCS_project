@@ -76,6 +76,7 @@
     }
 
 .field-error { min-height: 1.4em; margin: 6px 2px 0; color: #ffd2c7; font-size: .82rem; }
+.voice-status { min-height: 1.4em; margin: 6px 2px 0; color: var(--brand-muted); font-size: .82rem; }
 .submit-status { max-width: 920px; margin: 14px auto 0; color: #ffd2c7; text-align: center; }
 .submit-button { border: 0; font: inherit; cursor: pointer; }
 .submit-button:disabled { cursor: wait; opacity: .65; transform: none; }

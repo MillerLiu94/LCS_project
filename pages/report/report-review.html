@@ -57,14 +57,15 @@
               <div class="editor-row">
                 <div class="editor-frame">
                   <label class="sr-only" for="description-input">案件描述</label>
-                  <input class="editor-input" id="description-input" name="case-description" type="text" placeholder="請輸入案件描述" readonly aria-readonly="true" aria-describedby="description-error">
-                  <button class="voice-button" type="button" disabled aria-label="語音輸入未啟用">
+                  <input class="editor-input" id="description-input" name="case-description" type="text" placeholder="請輸入案件描述" readonly aria-readonly="true" aria-describedby="description-error description-voice-status">
+                  <button class="voice-button" id="description-voice" type="button" disabled aria-label="語音輸入未啟用">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3m-4 0h8"/></svg>
                   </button>
                   <button class="apply-button" id="apply-description" type="button">修改</button>
                 </div>
               </div>
             </div>
+            <p class="voice-status" id="description-voice-status" aria-live="polite"></p>
             <p class="field-error" id="description-error" role="alert"></p>
           </section>
         </div>
