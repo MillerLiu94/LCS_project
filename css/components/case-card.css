@@ -1,6 +1,7 @@
 .cases-grid, .activities-grid, .event-grid { display: grid; width: min(100%, 960px); grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 0 auto; }
 .case-card { display: flex; min-width: 0; min-height: 245px; flex-direction: column; align-items: center; justify-content: center; padding: 22px 22px 17px; border: 1px solid var(--brand-line); border-radius: 22px; background: var(--brand-surface); box-shadow: 0 8px 22px rgb(12 18 32 / 12%); text-align: center; }
 .case-card__top { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+.case-photo { display: block; width: 100%; max-height: 16rem; margin-bottom: 14px; border-radius: 14px; object-fit: cover; }
 .case-category, .case-status { display: inline-flex; min-height: 28px; align-items: center; padding: 3px 10px; border-radius: 999px; background: var(--brand-soft); color: var(--brand-primary); font-size: .72rem; font-weight: 700; }
 .case-status { flex: 0 0 auto; white-space: nowrap; }
 .case-title { margin: 0 0 12px; font-size: 1.14rem; line-height: 1.35; text-align: center; }

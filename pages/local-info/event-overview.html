@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#343b50">
-  <meta name="description" content="瀏覽社區近期活動與活動詳情。">
+  <meta name="description" content="瀏覽居民通報的社區事件與最新處理進度。">
   <title>社區事件總覽｜社區小尖兵</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,13 +27,13 @@
     </header>
     <main class="event-main">
       <h1>社區事件總覽</h1>
-      <p class="event-count sr-only" id="event-count" role="status" aria-live="polite">目前顯示 10 筆活動</p>
-      <section class="event-grid" id="events-list" aria-label="社區活動列表"></section>
+      <p class="event-count sr-only" id="event-count" role="status" aria-live="polite">正在載入社區事件…</p>
+      <section class="event-grid" id="events-list" aria-label="社區事件列表"></section>
       <p class="event-status" id="event-status" role="status" aria-live="polite"></p>
       <button class="retry-button" id="retry-events" type="button" hidden>載入更多活動</button>
     </main>
   </div>
-  <script src="../../api/runtime-config.js"></script>
+  <script src="/api/runtime-config.js"></script>
   <script src="../../api/community-api.js"></script>
   <script src="../../js/local-info/event-overview.js"></script>
 </body>

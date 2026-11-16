@@ -111,19 +111,6 @@
       showStatus(error.code === 1 ? "尚未允許定位，仍可搜尋地點或直接查詢。" : "無法取得目前位置，仍可直接查詢。", true);
     }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 300000 });
   }
-  function setupVoiceSearch() {
-    var Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!voiceButton) return;
-    if (!Recognition) { voiceButton.disabled = true; voiceButton.title = "此瀏覽器不支援語音輸入"; return; }
-    var recognition = new Recognition();
-    recognition.lang = "zh-TW";
-    recognition.interimResults = false;
-    recognition.onstart = function () { voiceButton.setAttribute("aria-pressed", "true"); showStatus("請說出地址、地標或社區名稱。"); };
-    recognition.onresult = function (event) { query.value = event.results[0][0].transcript; searchPlaces(); };
-    recognition.onerror = function () { showStatus("語音辨識未完成，您也可以直接輸入地點。", true); };
-    recognition.onend = function () { voiceButton.setAttribute("aria-pressed", "false"); };
-    voiceButton.addEventListener("click", function () { try { recognition.start(); } catch (_) { recognition.stop(); } });
-  }
   function ensureMap() {
     if (!mapElement || mapPreview || mapLoading) return;
     if (!window.GoogleMapsPreview) { mapFallback.textContent = "Google 地圖功能暫時無法使用，仍可搜尋地點。"; return; }
@@ -159,6 +146,12 @@
     question.style.height = "auto";
     question.style.height = Math.min(question.scrollHeight, 220) + "px";
   });
+  if (question) question.addEventListener("keydown", function (event) {
+    if (event.key === "Enter" && !event.shiftKey && !event.isComposing && event.keyCode !== 229) {
+      event.preventDefault();
+      questionForm.requestSubmit();
+    }
+  });
   query.addEventListener("keydown", function (event) { if (event.key === "Enter") { event.preventDefault(); searchPlaces(); } });
   questionForm.addEventListener("submit", function (event) {
     event.preventDefault();
@@ -171,7 +164,6 @@
       window.location.href = "activities-loading.html";
     } catch (_) { showStatus("目前無法開始查詢，請重新整理後再試。", true); }
   });
-  setupVoiceSearch();
   document.querySelectorAll("[data-nudge]").forEach(function (button) { button.disabled = true; });
   window.setTimeout(function () {
     var cached = null;

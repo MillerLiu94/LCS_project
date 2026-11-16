@@ -20,6 +20,20 @@ h1 { margin: 0; font-size: clamp(1.8rem, 4.5vw, 2.5rem); line-height: 1.25; }
 .summary-place strong { overflow: hidden; font-size: .92rem; text-overflow: ellipsis; white-space: nowrap; }
 .summary-query { max-width: 45%; overflow: hidden; margin: 0; color: var(--brand-muted); font-size: .78rem; text-overflow: ellipsis; white-space: nowrap; }
 .activity-count { flex: 0 0 auto; color: var(--brand-primary); font-size: .82rem; font-weight: 700; }
+.answer-summary { display: grid; gap: 5px; margin: 0 0 18px; padding: 15px 18px; border: 1px solid var(--brand-line); border-left: 3px solid var(--brand-primary); border-radius: 14px; background: var(--brand-surface); }
+.answer-label { color: var(--brand-primary); font: 700 .76rem/1.4 system-ui, sans-serif; letter-spacing: .04em; }
+.answer-copy { max-width: 78ch; margin: 0; color: #eef1f7; font: 400 .9rem/1.8 "Microsoft JhengHei", system-ui, sans-serif; text-align: left; overflow-wrap: anywhere; }
+.answer-copy:empty { display: none; }
+.activities-grid .case-card { position: relative; align-items: stretch; justify-content: flex-start; min-height: 220px; padding: 22px 24px 20px; border-radius: 20px; background: linear-gradient(155deg, #2a3448, var(--brand-surface) 68%); text-align: left; }
+.activities-grid .case-card::before { position: absolute; top: 0; right: 22px; left: 22px; height: 1px; background: linear-gradient(90deg, transparent, var(--brand-line), transparent); content: ""; }
+.activities-grid .case-title { margin: 0 0 14px; font: 700 1.08rem/1.55 "Microsoft JhengHei", system-ui, sans-serif; text-align: left; overflow-wrap: anywhere; }
+.activities-grid .case-meta { grid-template-columns: 72px minmax(0, 1fr); gap: 8px; margin: 3px 0; font: 400 .8rem/1.55 system-ui, "Microsoft JhengHei", sans-serif; text-align: left; }
+.activities-grid .case-meta span:first-child { color: var(--brand-primary); text-align: left; }
+.activities-grid .case-card details { margin-top: 12px; border-top: 1px solid var(--brand-line); }
+.activities-grid .case-card summary { min-height: 42px; padding-top: 11px; color: var(--brand-primary); font: 700 .84rem/1.5 system-ui, "Microsoft JhengHei", sans-serif; text-align: left; cursor: pointer; }
+.activities-grid .case-card details p { max-width: 68ch; margin: 8px 0 12px; color: #e1e6f0; font: 400 .86rem/1.75 "Microsoft JhengHei", system-ui, sans-serif; text-align: left; white-space: pre-line; overflow-wrap: anywhere; }
+.activities-grid .case-card > a { align-self: flex-start; margin-top: auto; padding-top: 8px; color: var(--brand-primary); font: 700 .82rem/1.5 system-ui, "Microsoft JhengHei", sans-serif; text-underline-offset: 3px; overflow-wrap: anywhere; }
+.activities-grid .case-card > a:hover { color: var(--brand-page-ink); }
 .activities-actions { display: flex; justify-content: center; margin: 24px 0 14px; }
 .more-button { display: inline-flex; min-height: 54px; align-items: center; justify-content: center; gap: 10px; padding: 8px 22px; border: 1px solid var(--brand-line); border-radius: 16px; background: var(--brand-soft); color: var(--brand-page-ink); font-weight: 700; cursor: pointer; transition: background .18s var(--activity-ease), transform .18s var(--activity-ease); }
 .more-button:hover { transform: translateY(-1px); background: var(--brand-line); }
@@ -33,6 +47,9 @@ h1 { margin: 0; font-size: clamp(1.8rem, 4.5vw, 2.5rem); line-height: 1.25; }
   .activities-hero { margin-bottom: 19px; }
   .activities-summary { flex-wrap: wrap; padding: 11px 14px; }
   .summary-query { order: 3; max-width: 100%; flex: 1 0 100%; }
+  .answer-summary { padding: 13px 14px; }
+  .activities-grid .case-card { min-height: 0; padding: 18px 17px 17px; }
+  .activities-grid .case-meta { grid-template-columns: 68px minmax(0, 1fr); }
   .activities-actions { margin-top: 20px; }
   .more-button { width: 100%; }
 }

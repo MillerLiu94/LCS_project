@@ -32,15 +32,21 @@
         <p class="summary-query" id="activity-query" hidden></p>
         <span class="activity-count" id="activity-count" aria-live="polite"></span>
       </section>
+      <section class="answer-summary" aria-label="搜尋摘要">
+        <span class="answer-label">資訊摘要</span>
+        <p id="activity-status" class="answer-copy" role="status" aria-live="polite"></p>
+      </section>
       <section class="activities-grid" id="activities-list" aria-label="附近社區活動" aria-live="polite"></section>
       <div class="activities-actions">
         <button class="more-button" id="show-more" type="button" aria-controls="activities-list">
           <span>查看更多動態（還剩 <span id="remaining-count">0</span> 筆資料）</span><span aria-hidden="true">→</span>
         </button>
       </div>
-      <p class="page-note">目前顯示介面示意活動，實際活動資訊以系統資料為準。</p>
+      <p class="page-note">活動與福利資訊來自公開來源，日期與申請內容請以來源網站公告為準。</p>
     </main>
   </div>
+  <script src="/api/runtime-config.js"></script>
+  <script src="../../api/community-api.js"></script>
   <script src="../../js/local-info/activities.js"></script>
 </body>
 </html>

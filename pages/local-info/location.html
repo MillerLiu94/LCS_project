@@ -31,15 +31,19 @@
 
       <form class="query-card" id="local-info-form" aria-label="查詢福利與在地資訊">
         <label class="sr-only" for="local-info-question">你的問題</label>
-        <textarea class="query-input" id="local-info-question" rows="3" placeholder="例如：我想了解附近的長照服務" aria-describedby="query-examples"></textarea>
+        <textarea class="query-input" id="local-info-question" rows="3" placeholder="例如：我想了解附近的長照服務" aria-describedby="query-examples question-voice-status"></textarea>
         <p class="query-examples" id="query-examples">也可以詢問育兒補助、租屋支持、社區活動⋯⋯</p>
+        <p class="query-examples query-voice-status" id="question-voice-status" role="status" aria-live="polite" aria-atomic="true"></p>
         <div class="query-actions">
           <div class="current-place" aria-live="polite">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>
             <span class="place-copy"><small>查詢地區</small><strong id="location-label">正在取得目前位置…</strong></span>
             <button class="change-location" id="toggle-location-editor" type="button" aria-expanded="false" aria-controls="location-editor">更改地點</button>
           </div>
-          <button class="confirm-button" id="confirm-location" type="submit" aria-label="開始查詢" title="開始查詢"><span class="sr-only">開始查詢</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
+          <div class="query-submit-actions">
+            <button class="icon-button query-voice" id="question-voice" type="button" aria-label="開始語音輸入問題" aria-pressed="false" title="語音輸入問題"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3m-4 0h8"/></svg></button>
+            <button class="confirm-button" id="confirm-location" type="submit" aria-label="開始查詢" title="開始查詢"><span class="sr-only">開始查詢</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
+          </div>
         </div>
       </form>
 
@@ -74,9 +78,11 @@
       <p class="status" id="status" role="status" aria-live="polite"></p>
     </main>
   </div>
-  <script src="../../api/runtime-config.js"></script>
+  <script src="/api/runtime-config.js"></script>
   <script src="../../api/community-api.js"></script>
+  <script src="../../js/common/audio-recorder.js"></script>
   <script src="../../js/location/google-map-preview.js"></script>
+  <script src="../../js/location/local-info-voice.js"></script>
   <script src="../../js/location/local-info-picker.js"></script>
 </body>
 </html>
